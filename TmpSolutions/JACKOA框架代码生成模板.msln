@@ -1,0 +1,11 @@
+﻿//JACKOA框架代码生成模板方案文件
+//#Path:当前生成文件的模板路径
+//#OutName:当前生成文件的输出名字,可以使用表名
+//#ClassFullName:当前生成文件中的生成类的全名
+//#CreateMethod:当前生成文件中的执行生成的方法名
+#Item_Start
+	#Path=JACKOA框架代码生成模板/ModelTmp.cs
+	#OutName=#TableName#.cs
+	#ClassFullName=CodeCreator_JACKOA_Frame.ModelTmp
+	#CreateMethod=Create
+#Item_End
