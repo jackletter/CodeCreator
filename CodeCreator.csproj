@@ -32,6 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DBUtil, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\DBUtil.dll</HintPath>
+    </Reference>
+    <Reference Include="DocX, Version=1.0.0.22, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\DocX.dll</HintPath>
+    </Reference>
     <Reference Include="HanZi2PinYin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\HanZi2PinYin.dll</HintPath>
@@ -48,26 +56,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddCol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddCol.Designer.cs">
+      <DependentUpon>AddCol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddTable.Designer.cs">
+      <DependentUpon>AddTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConnectConf.cs" />
+    <Compile Include="ConnEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConnEdit.Designer.cs">
+      <DependentUpon>ConnEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataTransfer.cs" />
     <Compile Include="DynamicCreator.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form4.cs">
+    <Compile Include="MSMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form4.Designer.cs">
-      <DependentUpon>Form4.cs</DependentUpon>
+    <Compile Include="MSMain.Designer.cs">
+      <DependentUpon>MSMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form5.cs">
+    <Compile Include="ConnAdd.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form5.Designer.cs">
-      <DependentUpon>Form5.cs</DependentUpon>
+    <Compile Include="ConnAdd.Designer.cs">
+      <DependentUpon>ConnAdd.cs</DependentUpon>
     </Compile>
     <None Include="TmpSolutions\宁夏代码生成\ModelTmp.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -102,14 +128,23 @@
     <Compile Include="MslnConf.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="AddCol.resx">
+      <DependentUpon>AddCol.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form4.resx">
-      <DependentUpon>Form4.cs</DependentUpon>
+    <EmbeddedResource Include="AddTable.resx">
+      <DependentUpon>AddTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form5.resx">
-      <DependentUpon>Form5.cs</DependentUpon>
+    <EmbeddedResource Include="ConnEdit.resx">
+      <DependentUpon>ConnEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MSMain.resx">
+      <DependentUpon>MSMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnAdd.resx">
+      <DependentUpon>ConnAdd.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -135,8 +170,13 @@
     <None Include="TmpSolutions\政务5.0代码生成.msln">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="表结构说明模板.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="lib\DBUtil.dll" />
+    <Content Include="lib\DocX.dll" />
     <Content Include="lib\HanZi2PinYin.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -99,11 +99,11 @@ namespace LandSite.ProPlan.Components
                 {
                     string tmpr = @"
 ^##^                    result.#ColumnName# = ds.Tables[0].Rows[0][#TableName#Models.Column.#ColumnName#].ToString().Replace(""/"",""-"").Replace("" 0:00:00"","""");";
-                    string tmp2 = tmpr.Replace("#ColumnName#", listColumnNames[i]).Replace("#TableName#", tableName).Replace("^##^", "");
+                    string tmp2 = tmpr.Replace("#ColumnName#", c.GetSpell(listColumnNames[i], ConvertModel.FirstCap)).Replace("#TableName#", tableName).Replace("^##^", "");
                     res += tmp2;
                     continue;
                 }
-                string tmp = tmpRes.Replace("#ColumnName#", listColumnNames[i]).Replace("#TableName#", tableName).Replace("^##^", "");
+                string tmp = tmpRes.Replace("#ColumnName#", c.GetSpell(listColumnNames[i], ConvertModel.FirstCap)).Replace("#TableName#", tableName).Replace("^##^", "");
                 res += tmp;
             }
             tmpRes = @"
@@ -134,7 +134,7 @@ namespace LandSite.ProPlan.Components
             for (int i = 0; i < listColumnNames.Count; i++)
             {
                 if (listColumnIsIdentities[i]) { continue; }
-                string tmp = tmpRes.Replace("#TableName#", tableName).Replace("#ColumnName#", listColumnNames[i]).Replace("^##^", "");
+                string tmp = tmpRes.Replace("#TableName#", tableName).Replace("#ColumnName#", c.GetSpell(listColumnNames[i], ConvertModel.FirstCap)).Replace("^##^", "");
                 res += tmp;
             }
             tmpRes = @"
@@ -167,7 +167,7 @@ namespace LandSite.ProPlan.Components
             for (int i = 0; i < listColumnNames.Count; i++)
             {
                 if (listColumnIsIdentities[i]) { continue; }
-                string tmp = tmpRes.Replace("#TableName#", tableName).Replace("#ColumnName#", listColumnNames[i]).Replace("^##^", "");
+                string tmp = tmpRes.Replace("#TableName#", tableName).Replace("#ColumnName#", c.GetSpell(listColumnNames[i], ConvertModel.FirstCap)).Replace("^##^", "");
                 res += tmp;
             }
 
@@ -234,7 +234,7 @@ namespace LandSite.ProPlan.Components
 ^##^            SearchListResult<#TableName#Models> slr = new SearchListResult<#TableName#Models>();
 ^##^            slr.Count =  GetDataCount(iDb,sFilter);
 ^##^            string sOrderString = """";
-^##^            if (sOrderColumn != """")
+^##^            if (sOrderColumn != """"&&sOrderColumn != null)
 ^##^            {
 ^##^                sOrderString = "" ORDER BY ""+sOrderColumn;
 ^##^                if (sOrderType.ToLower() == ""desc"")
@@ -269,11 +269,11 @@ namespace LandSite.ProPlan.Components
                 {
                     string tmpr = @"
 ^##^                result.#ColumnName# = ds.Tables[0].Rows[ii][#TableName#Models.Column.#ColumnName#].ToString().Replace(""/"",""-"").Replace("" 0:00:00"","""");";
-                    string tmp2 = tmpr.Replace("#ColumnName#", listColumnNames[i]).Replace("#TableName#", tableName).Replace("^##^", "");
+                    string tmp2 = tmpr.Replace("#ColumnName#", c.GetSpell(listColumnNames[i], ConvertModel.FirstCap)).Replace("#TableName#", tableName).Replace("^##^", "");
                     res += tmp2;
                     continue;
                 }
-                string tmp = tmpRes.Replace("#TableName#", tableName).Replace("#ColumnName#", listColumnNames[i]).Replace("^##^", "");
+                string tmp = tmpRes.Replace("#TableName#", tableName).Replace("#ColumnName#", c.GetSpell(listColumnNames[i], ConvertModel.FirstCap)).Replace("^##^", "");
                 res += tmp;
             }
             tmpRes = @"
