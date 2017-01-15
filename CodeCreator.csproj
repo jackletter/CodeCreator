@@ -38,6 +38,10 @@
     <ApplicationIcon>Resources\i.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DBUtil, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\DBUtil.dll</HintPath>
+    </Reference>
     <Reference Include="DocX, Version=1.0.0.22, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\DocX.dll</HintPath>
@@ -97,7 +101,6 @@
     <Compile Include="ConnAdd.Designer.cs">
       <DependentUpon>ConnAdd.cs</DependentUpon>
     </Compile>
-    <None Include="app.config" />
     <None Include="TmpSolutions\宁夏代码生成\ModelTmp.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -184,12 +187,6 @@
     <Content Include="lib\HanZi2PinYin.dll" />
     <None Include="Resources\loading.gif" />
     <None Include="Resources\i.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DBUtil\DBUtil.csproj">
-      <Project>{cade4e0c-6240-43d1-a38e-efbc7c542750}</Project>
-      <Name>DBUtil</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
