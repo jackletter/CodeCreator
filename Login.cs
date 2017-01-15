@@ -22,48 +22,46 @@ namespace CodeCreator
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (flag) { return; }
-            radioButton1.Select();
-            button1.Focus();
+            radMysql.Select();
+            btnLogin.Focus();
             conf = new ConnectConf();
             DataTransfer.connnect = conf;
             foreach (var item in conf.Items)
             {
-                comboBox1.Items.Add(item.ItemName);
+                comConns.Items.Add(item.ItemName);
             }
             if (conf.DefaultItem != null)
             {
-                comboBox1.SelectedItem = conf.DefaultItem.ItemName;
+                comConns.SelectedItem = conf.DefaultItem.ItemName;
             }
             InitLoginItem();
-            flag = true;
         }
 
         private void InitLoginItem()
         {
-            if (comboBox1.SelectedItem != null && comboBox1.SelectedItem.ToString() != "")
+            if (comConns.SelectedItem != null && comConns.SelectedItem.ToString() != "")
             {
-                ConnectConf.ConntectItem item = conf.Items.Find(i => i.ItemName == comboBox1.SelectedItem.ToString());
+                ConnectConf.ConntectItem item = conf.Items.Find(i => i.ItemName == comConns.SelectedItem.ToString());
                 if (item != null)
                 {
-                    textBox1.Text = item.IP;
-                    textBox2.Text = item.DBName;
-                    textBox3.Text = item.UserID;
-                    textBox4.Text = item.PWD;
-                    radioButton1.Checked = false;
-                    radioButton2.Checked = false;
-                    radioButton3.Checked = false;
+                    txtIP.Text = item.IP;
+                    txtDB.Text = item.DBName;
+                    txtUID.Text = item.UserID;
+                    txtPWD.Text = item.PWD;
+                    radMysql.Checked = false;
+                    radOracle.Checked = false;
+                    radSqlserver.Checked = false;
                     if (item.DBType == "SqlServer")
                     {
-                        radioButton1.Checked = true;
+                        radMysql.Checked = true;
                     }
                     else if (item.DBType == "Oracle")
                     {
-                        radioButton2.Checked = true;
+                        radOracle.Checked = true;
                     }
                     else if (item.DBType == "MySql")
                     {
-                        radioButton2.Checked = true;
+                        radOracle.Checked = true;
                     }
                 }
 
@@ -72,32 +70,63 @@ namespace CodeCreator
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            if (btnExit.Text == "退出")
+            {
+                Application.Exit();
+            }
+            else
+            {
+                flag = false;
+                EnableControls();
+                picLoad.Hide();
+                btnExit.Text = "退出";
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (radioButton1.Checked)
+            flag = true;
+            if (radMysql.Checked)
             {
-                try
+                string connStr = string.Format(
+                    "Data Source={0};Initial Catalog={1};User ID={2};Password={3};",
+                    txtIP.Text.Trim(),
+                    txtDB.Text.Trim(),
+                    txtUID.Text.Trim(),
+                    txtPWD.Text.Trim());
+                IDbAccess iDb = IDBFactory.CreateIDB(connStr, "SQLSERVER");
+                picLoad.Visible = true;
+                picLoad.Refresh();
+                btnExit.Text = "取消";
+                DisableControls();
+                System.Threading.Tasks.Task.Factory.StartNew(() =>
                 {
-                    string connStr = string.Format(
-                        "Data Source={0};Initial Catalog={1};User ID={2};Password={3};",
-                        textBox1.Text.Trim(),
-                        textBox2.Text.Trim(),
-                        textBox3.Text.Trim(),
-                        textBox4.Text.Trim());
-                    IDbAccess iDb = IDBFactory.CreateIDB(connStr, "SQLSERVER");
-                    DataTransfer.iDb = iDb;
-                    MSMain msMain = new MSMain();
-                    msMain.Text = "链接到:" + textBox1.Text.Trim() + "(" + textBox2.Text.Trim() + "/" + textBox3.Text.Trim() + ")";
-                    msMain.Show();
-                    this.Hide();
-                }
-                catch (Exception ee)
-                {
-                    MessageBox.Show("连接失败;\n" + ee.ToString());
-                }
+                    Result res = iDb.OpenTest();
+                    if (!flag) { return; }
+                    if (res.Success)
+                    {
+                        DataTransfer.iDb = iDb;
+                        this.Invoke(
+                    new MethodInvoker(() =>
+                    {
+                        MSMain msMain = new MSMain();
+                        msMain.Text = "链接到:" + txtIP.Text.Trim() + "(" + txtDB.Text.Trim() + "/" + txtUID.Text.Trim() + ")";
+                        msMain.Show();
+                        this.Hide();
+                    }));
+                    }
+                    else
+                    {
+                        this.Invoke(new MethodInvoker(() =>
+                    {
+                        picLoad.Hide();
+                        flag = false;
+                        EnableControls();
+                        btnExit.Text = "退出";
+                        MessageBox.Show(res.Data.ToString());
+                    }));
+                    }
+                });
 
             }
         }
@@ -105,6 +134,26 @@ namespace CodeCreator
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             InitLoginItem();
+        }
+
+        private void DisableControls()
+        {
+            comConns.Enabled = false;
+            txtDB.Enabled = false;
+            txtIP.Enabled = false;
+            txtPWD.Enabled = false;
+            txtUID.Enabled = false;
+            btnLogin.Enabled = false;
+        }
+
+        private void EnableControls()
+        {
+            comConns.Enabled = true;
+            txtDB.Enabled = true;
+            txtIP.Enabled = true;
+            txtPWD.Enabled = true;
+            txtUID.Enabled = true;
+            btnLogin.Enabled = true;
         }
     }
 }

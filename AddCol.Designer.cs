@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddCol));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -120,7 +121,7 @@
             this.button1.Location = new System.Drawing.Point(77, 286);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(89, 36);
-            this.button1.TabIndex = 10;
+            this.button1.TabIndex = 8;
             this.button1.Text = "添加";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -132,7 +133,7 @@
             this.button2.Location = new System.Drawing.Point(215, 286);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(89, 36);
-            this.button2.TabIndex = 11;
+            this.button2.TabIndex = 9;
             this.button2.Text = "取消";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -142,7 +143,7 @@
             this.textBox6.Location = new System.Drawing.Point(108, 246);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(196, 21);
-            this.textBox6.TabIndex = 12;
+            this.textBox6.TabIndex = 7;
             // 
             // label6
             // 
@@ -161,7 +162,7 @@
             this.checkBox1.Location = new System.Drawing.Point(108, 169);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(15, 14);
-            this.checkBox1.TabIndex = 14;
+            this.checkBox1.TabIndex = 5;
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // checkBox2
@@ -170,7 +171,7 @@
             this.checkBox2.Location = new System.Drawing.Point(108, 208);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(15, 14);
-            this.checkBox2.TabIndex = 15;
+            this.checkBox2.TabIndex = 6;
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // label7
@@ -187,7 +188,7 @@
             this.textBox4.Location = new System.Drawing.Point(108, 129);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(196, 21);
-            this.textBox4.TabIndex = 17;
+            this.textBox4.TabIndex = 4;
             // 
             // AddCol
             // 
@@ -210,6 +211,7 @@
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddCol";
             this.Text = "添加列";
             this.Load += new System.EventHandler(this.AddCol_Load);

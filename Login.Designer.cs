@@ -28,188 +28,224 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
+            this.txtIP = new System.Windows.Forms.TextBox();
+            this.txtDB = new System.Windows.Forms.TextBox();
+            this.txtUID = new System.Windows.Forms.TextBox();
+            this.txtPWD = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.btnLogin = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
+            this.radMysql = new System.Windows.Forms.RadioButton();
+            this.radOracle = new System.Windows.Forms.RadioButton();
+            this.radSqlserver = new System.Windows.Forms.RadioButton();
+            this.comConns = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.picLoad = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.picLoad)).BeginInit();
             this.SuspendLayout();
             // 
-            // textBox1
+            // txtIP
             // 
-            this.textBox1.Location = new System.Drawing.Point(120, 111);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(384, 21);
-            this.textBox1.TabIndex = 0;
+            this.txtIP.Font = new System.Drawing.Font("宋体", 12F);
+            this.txtIP.Location = new System.Drawing.Point(123, 102);
+            this.txtIP.Name = "txtIP";
+            this.txtIP.Size = new System.Drawing.Size(285, 26);
+            this.txtIP.TabIndex = 0;
             // 
-            // textBox2
+            // txtDB
             // 
-            this.textBox2.Location = new System.Drawing.Point(120, 177);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(384, 21);
-            this.textBox2.TabIndex = 1;
+            this.txtDB.Font = new System.Drawing.Font("宋体", 12F);
+            this.txtDB.Location = new System.Drawing.Point(123, 168);
+            this.txtDB.Name = "txtDB";
+            this.txtDB.Size = new System.Drawing.Size(285, 26);
+            this.txtDB.TabIndex = 1;
             // 
-            // textBox3
+            // txtUID
             // 
-            this.textBox3.Location = new System.Drawing.Point(120, 231);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(384, 21);
-            this.textBox3.TabIndex = 2;
+            this.txtUID.Font = new System.Drawing.Font("宋体", 12F);
+            this.txtUID.Location = new System.Drawing.Point(123, 222);
+            this.txtUID.Name = "txtUID";
+            this.txtUID.Size = new System.Drawing.Size(285, 26);
+            this.txtUID.TabIndex = 2;
             // 
-            // textBox4
+            // txtPWD
             // 
-            this.textBox4.Location = new System.Drawing.Point(120, 276);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.PasswordChar = '*';
-            this.textBox4.Size = new System.Drawing.Size(384, 21);
-            this.textBox4.TabIndex = 3;
+            this.txtPWD.Font = new System.Drawing.Font("宋体", 12F);
+            this.txtPWD.Location = new System.Drawing.Point(123, 267);
+            this.txtPWD.Name = "txtPWD";
+            this.txtPWD.PasswordChar = '*';
+            this.txtPWD.Size = new System.Drawing.Size(285, 26);
+            this.txtPWD.TabIndex = 3;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(30, 120);
+            this.label1.Font = new System.Drawing.Font("宋体", 12F);
+            this.label1.Location = new System.Drawing.Point(33, 111);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 12);
+            this.label1.Size = new System.Drawing.Size(64, 16);
             this.label1.TabIndex = 4;
             this.label1.Text = "IP地址:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 186);
+            this.label2.Font = new System.Drawing.Font("宋体", 12F);
+            this.label2.Location = new System.Drawing.Point(21, 177);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 12);
+            this.label2.Size = new System.Drawing.Size(96, 16);
             this.label2.TabIndex = 5;
             this.label2.Text = "数据库名称:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(36, 240);
+            this.label3.Font = new System.Drawing.Font("宋体", 12F);
+            this.label3.Location = new System.Drawing.Point(39, 231);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 12);
+            this.label3.Size = new System.Drawing.Size(48, 16);
             this.label3.TabIndex = 6;
             this.label3.Text = "账户:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(36, 285);
+            this.label4.Font = new System.Drawing.Font("宋体", 12F);
+            this.label4.Location = new System.Drawing.Point(39, 276);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 12);
+            this.label4.Size = new System.Drawing.Size(48, 16);
             this.label4.TabIndex = 7;
             this.label4.Text = "密码:";
             // 
-            // button1
+            // btnLogin
             // 
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Location = new System.Drawing.Point(120, 342);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(103, 40);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "登录";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnLogin.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLogin.Font = new System.Drawing.Font("宋体", 14F);
+            this.btnLogin.Location = new System.Drawing.Point(42, 325);
+            this.btnLogin.Name = "btnLogin";
+            this.btnLogin.Size = new System.Drawing.Size(134, 51);
+            this.btnLogin.TabIndex = 4;
+            this.btnLogin.Text = "登录";
+            this.btnLogin.UseVisualStyleBackColor = true;
+            this.btnLogin.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // btnExit
             // 
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.Location = new System.Drawing.Point(334, 342);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(103, 40);
-            this.button2.TabIndex = 9;
-            this.button2.TabStop = false;
-            this.button2.Text = "退出";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnExit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnExit.Font = new System.Drawing.Font("宋体", 14F);
+            this.btnExit.Location = new System.Drawing.Point(231, 325);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(124, 51);
+            this.btnExit.TabIndex = 5;
+            this.btnExit.TabStop = false;
+            this.btnExit.Text = "退出";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.button2_Click);
             // 
-            // radioButton1
+            // radMysql
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(120, 64);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(77, 16);
-            this.radioButton1.TabIndex = 10;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "SqlServer";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radMysql.AutoSize = true;
+            this.radMysql.Font = new System.Drawing.Font("宋体", 12F);
+            this.radMysql.Location = new System.Drawing.Point(42, 64);
+            this.radMysql.Name = "radMysql";
+            this.radMysql.Size = new System.Drawing.Size(98, 20);
+            this.radMysql.TabIndex = 10;
+            this.radMysql.TabStop = true;
+            this.radMysql.Text = "SqlServer";
+            this.radMysql.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // radOracle
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Enabled = false;
-            this.radioButton2.Location = new System.Drawing.Point(258, 64);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(59, 16);
-            this.radioButton2.TabIndex = 11;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Oracle";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radOracle.AutoSize = true;
+            this.radOracle.Enabled = false;
+            this.radOracle.Font = new System.Drawing.Font("宋体", 12F);
+            this.radOracle.Location = new System.Drawing.Point(180, 64);
+            this.radOracle.Name = "radOracle";
+            this.radOracle.Size = new System.Drawing.Size(74, 20);
+            this.radOracle.TabIndex = 11;
+            this.radOracle.TabStop = true;
+            this.radOracle.Text = "Oracle";
+            this.radOracle.UseVisualStyleBackColor = true;
             // 
-            // radioButton3
+            // radSqlserver
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Enabled = false;
-            this.radioButton3.Location = new System.Drawing.Point(367, 64);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(53, 16);
-            this.radioButton3.TabIndex = 12;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "MySql";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.radSqlserver.AutoSize = true;
+            this.radSqlserver.Enabled = false;
+            this.radSqlserver.Font = new System.Drawing.Font("宋体", 12F);
+            this.radSqlserver.Location = new System.Drawing.Point(289, 64);
+            this.radSqlserver.Name = "radSqlserver";
+            this.radSqlserver.Size = new System.Drawing.Size(66, 20);
+            this.radSqlserver.TabIndex = 12;
+            this.radSqlserver.TabStop = true;
+            this.radSqlserver.Text = "MySql";
+            this.radSqlserver.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // comConns
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(197, 22);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(354, 20);
-            this.comboBox1.TabIndex = 13;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comConns.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comConns.Font = new System.Drawing.Font("宋体", 12F);
+            this.comConns.FormattingEnabled = true;
+            this.comConns.Location = new System.Drawing.Point(126, 21);
+            this.comConns.Name = "comConns";
+            this.comConns.Size = new System.Drawing.Size(296, 24);
+            this.comConns.TabIndex = 13;
+            this.comConns.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(118, 22);
+            this.label5.Font = new System.Drawing.Font("宋体", 12F);
+            this.label5.Location = new System.Drawing.Point(40, 24);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(59, 12);
+            this.label5.Size = new System.Drawing.Size(80, 16);
             this.label5.TabIndex = 14;
             this.label5.Text = "使用连接:";
+            // 
+            // picLoad
+            // 
+            this.picLoad.Image = global::CodeCreator.Properties.Resources.loading;
+            this.picLoad.Location = new System.Drawing.Point(168, 153);
+            this.picLoad.Name = "picLoad";
+            this.picLoad.Size = new System.Drawing.Size(74, 63);
+            this.picLoad.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picLoad.TabIndex = 15;
+            this.picLoad.TabStop = false;
+            this.picLoad.Visible = false;
             // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(583, 413);
+            this.ClientSize = new System.Drawing.Size(432, 396);
+            this.Controls.Add(this.picLoad);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.radioButton3);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.comConns);
+            this.Controls.Add(this.radSqlserver);
+            this.Controls.Add(this.radOracle);
+            this.Controls.Add(this.radMysql);
+            this.Controls.Add(this.btnExit);
+            this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtUID);
+            this.Controls.Add(this.txtDB);
+            this.Controls.Add(this.txtIP);
+            this.Controls.Add(this.txtPWD);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Login";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "数据库登录";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.picLoad)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -217,21 +253,22 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox txtIP;
+        private System.Windows.Forms.TextBox txtDB;
+        private System.Windows.Forms.TextBox txtUID;
+        private System.Windows.Forms.TextBox txtPWD;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button btnLogin;
+        private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.RadioButton radMysql;
+        private System.Windows.Forms.RadioButton radOracle;
+        private System.Windows.Forms.RadioButton radSqlserver;
+        private System.Windows.Forms.ComboBox comConns;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.PictureBox picLoad;
     }
 }
 

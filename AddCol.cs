@@ -35,6 +35,11 @@ namespace CodeCreator
             col.IsNullable = checkBox1.Checked;
             col.IsUnique = checkBox2.Checked;
             col.Default = textBox6.Text;
+            if (string.IsNullOrEmpty(col.Name))
+            {
+                MessageBox.Show("请输入列名!");
+                return;
+            }
             DBUtil.SqlServerIDbAccess iDb = DataTransfer.iDb as DBUtil.SqlServerIDbAccess;
             try
             {
