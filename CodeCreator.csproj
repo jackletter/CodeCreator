@@ -101,12 +101,6 @@
     <Compile Include="ConnAdd.Designer.cs">
       <DependentUpon>ConnAdd.cs</DependentUpon>
     </Compile>
-    <None Include="TmpSolutions\宁夏代码生成\ModelTmp.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TmpSolutions\宁夏代码生成\ComponentTmp.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="TmpSolutions\JACKOA框架代码生成模板\ModelTmp.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -120,15 +114,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TmpSolutions\JACKOA生成模板\ModelTmp.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TmpSolutions\宁夏代码生成.msln">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TmpSolutions\政务5.0代码生成\ComponentTmp.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TmpSolutions\政务5.0代码生成\ModelTmp.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="MslnConf.cs" />
@@ -172,9 +157,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="TmpSolutions\JACKOA代码生成.msln">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TmpSolutions\政务5.0代码生成.msln">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="表结构说明模板.docx">
