@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("CodeCreator")]
-[assembly: AssemblyDescription("代码生成器|数据库管理工具")]
+[assembly: AssemblyDescription("代码生成器|数据库管理工具-胡庆杰")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("JACKOA")]
 [assembly: AssemblyProduct("CodeCreator")]

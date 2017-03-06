@@ -53,6 +53,7 @@
             this.全选ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.反选ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.取消选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.tblContext = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -66,8 +67,6 @@
             this.删除列ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.添加列ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnDoc = new System.Windows.Forms.Button();
-            this.btnXML = new System.Windows.Forms.Button();
             this.alterContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,6 +88,8 @@
             this.radStruct = new System.Windows.Forms.RadioButton();
             this.picLoad = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnXML = new System.Windows.Forms.Button();
+            this.btnDoc = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -217,7 +218,7 @@
             this.btnRefresh.Font = new System.Drawing.Font("宋体", 14F);
             this.btnRefresh.Location = new System.Drawing.Point(165, 337);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(93, 43);
+            this.btnRefresh.Size = new System.Drawing.Size(131, 43);
             this.btnRefresh.TabIndex = 7;
             this.btnRefresh.Text = "刷新";
             this.btnRefresh.UseVisualStyleBackColor = true;
@@ -241,7 +242,7 @@
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnExit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnExit.Font = new System.Drawing.Font("宋体", 14F);
-            this.btnExit.Location = new System.Drawing.Point(283, 395);
+            this.btnExit.Location = new System.Drawing.Point(319, 394);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(93, 43);
             this.btnExit.TabIndex = 9;
@@ -274,7 +275,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.连接管理ToolStripMenuItem,
-            this.编辑ToolStripMenuItem});
+            this.编辑ToolStripMenuItem,
+            this.关于ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1336, 29);
@@ -336,6 +338,14 @@
             this.取消选择ToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
             this.取消选择ToolStripMenuItem.Text = "取消选择";
             this.取消选择ToolStripMenuItem.Click += new System.EventHandler(this.取消选择ToolStripMenuItem_Click);
+            // 
+            // 关于ToolStripMenuItem
+            // 
+            this.关于ToolStripMenuItem.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(54, 25);
+            this.关于ToolStripMenuItem.Text = "关于";
+            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
             // openFileDialog1
             // 
@@ -424,32 +434,6 @@
             this.label4.Size = new System.Drawing.Size(21, 14);
             this.label4.TabIndex = 13;
             this.label4.Visible = false;
-            // 
-            // btnDoc
-            // 
-            this.btnDoc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDoc.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDoc.Font = new System.Drawing.Font("宋体", 14F);
-            this.btnDoc.Location = new System.Drawing.Point(5, 337);
-            this.btnDoc.Name = "btnDoc";
-            this.btnDoc.Size = new System.Drawing.Size(154, 43);
-            this.btnDoc.TabIndex = 14;
-            this.btnDoc.Text = "生成表结构说明";
-            this.btnDoc.UseVisualStyleBackColor = true;
-            this.btnDoc.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // btnXML
-            // 
-            this.btnXML.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnXML.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnXML.Font = new System.Drawing.Font("宋体", 14F);
-            this.btnXML.Location = new System.Drawing.Point(6, 395);
-            this.btnXML.Name = "btnXML";
-            this.btnXML.Size = new System.Drawing.Size(153, 43);
-            this.btnXML.TabIndex = 15;
-            this.btnXML.Text = "导出表结构XML";
-            this.btnXML.UseVisualStyleBackColor = true;
-            this.btnXML.Click += new System.EventHandler(this.button6_Click);
             // 
             // alterContext
             // 
@@ -577,7 +561,7 @@
             this.btnSQL.Font = new System.Drawing.Font("宋体", 14F);
             this.btnSQL.Location = new System.Drawing.Point(165, 395);
             this.btnSQL.Name = "btnSQL";
-            this.btnSQL.Size = new System.Drawing.Size(93, 43);
+            this.btnSQL.Size = new System.Drawing.Size(131, 43);
             this.btnSQL.TabIndex = 23;
             this.btnSQL.Text = "生成SQL";
             this.btnSQL.UseVisualStyleBackColor = true;
@@ -686,12 +670,40 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "代码生成";
             // 
+            // btnXML
+            // 
+            this.btnXML.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnXML.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnXML.Font = new System.Drawing.Font("宋体", 14F);
+            this.btnXML.Location = new System.Drawing.Point(5, 393);
+            this.btnXML.Name = "btnXML";
+            this.btnXML.Size = new System.Drawing.Size(154, 43);
+            this.btnXML.TabIndex = 27;
+            this.btnXML.Text = "导出表结构XML";
+            this.btnXML.UseVisualStyleBackColor = true;
+            this.btnXML.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // btnDoc
+            // 
+            this.btnDoc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDoc.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDoc.Font = new System.Drawing.Font("宋体", 14F);
+            this.btnDoc.Location = new System.Drawing.Point(5, 338);
+            this.btnDoc.Name = "btnDoc";
+            this.btnDoc.Size = new System.Drawing.Size(154, 40);
+            this.btnDoc.TabIndex = 28;
+            this.btnDoc.Text = "生成表结构说明";
+            this.btnDoc.UseVisualStyleBackColor = true;
+            this.btnDoc.Click += new System.EventHandler(this.button5_Click);
+            // 
             // MSMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1336, 472);
+            this.Controls.Add(this.btnDoc);
+            this.Controls.Add(this.btnXML);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.picLoad);
             this.Controls.Add(this.panel1);
@@ -702,8 +714,6 @@
             this.Controls.Add(this.radProc);
             this.Controls.Add(this.radView);
             this.Controls.Add(this.radTable);
-            this.Controls.Add(this.btnXML);
-            this.Controls.Add(this.btnDoc);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnRefresh);
@@ -714,6 +724,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MSMain";
             this.Text = "MSSqlServer主窗口";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form4_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
@@ -759,8 +770,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnDoc;
-        private System.Windows.Forms.Button btnXML;
         private System.Windows.Forms.ToolStripMenuItem 删除表ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 新建表ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 编辑连接ToolStripMenuItem;
@@ -792,5 +801,8 @@
         private System.Windows.Forms.RadioButton radIndex;
         private System.Windows.Forms.PictureBox picLoad;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnXML;
+        private System.Windows.Forms.Button btnDoc;
+        private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
     }
 }

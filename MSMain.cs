@@ -28,9 +28,7 @@ namespace CodeCreator
 
         private void Form4_Load(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Maximized;
-            this.MaximizeBox = false;
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            dataGridView2.DataError += dataGridView2_DataError;
             radTable.Checked = true;
             EnableAllBtn();
             dataGridView1.DoubleBuffered(true);
@@ -38,6 +36,10 @@ namespace CodeCreator
             dataGridView2.Visible = true;
             richTextBox1.Visible = false;
             CHKTable();
+        }
+
+        void dataGridView2_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
         }
 
         private void CHKTable()
@@ -112,6 +114,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
             richTextBox1.Visible = false;
             dataGridView2.Visible = true;
             textBox1.Text = tblStruct.Name;
+            label4.Text = tblStruct.Desc;
             picLoad.Show();
             System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
@@ -421,7 +424,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
             {
                 if (System.Windows.Forms.DialogResult.OK == MessageBox.Show("是否更新到数据库?", "是否更新", MessageBoxButtons.OKCancel))
                 {
-                    if (tblEdit == 1)
+                    if (tblEdit == 2)
                     {
                         try
                         {
@@ -435,11 +438,11 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                         dataGridView1.CurrentCell.ReadOnly = false;
 
                     }
-                    else if (tblEdit == 2)
+                    else if (tblEdit == 3)
                     {
                         try
                         {
-                            iDb.SaveTableDesc(dataGridView1.Rows[tblRowEdit].Cells[1].Value.ToString(), newVal);
+                            iDb.SaveTableDesc(dataGridView1.Rows[tblRowEdit].Cells[2].Value.ToString(), newVal);
                             MessageBox.Show("更新成功!");
                         }
                         catch (Exception ex)
@@ -585,75 +588,109 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
 
         private async void button5_Click(object sender, EventArgs e)
         {
-            List<TableStruct> res = await CreateTableList();
+            btnDoc.Text = "执行中...";
+            btnDoc.Enabled = false;
+            List<TableStruct> res = null;
+            try
+            {
+                res = await CreateTableList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                btnDoc.Text = "生成表结构说明";
+                btnDoc.Enabled = true;
+                return;
+            }
             if (res.Count == 0)
             {
                 MessageBox.Show("请选中要生成表结构的文档!");
+                btnDoc.Text = "生成表结构说明";
+                btnDoc.Enabled = true;
                 return;
             }
-            DocX doc = DocX.Load("表结构说明模板.docx");
+            try
+            {
+                DocX doc = null;
+                await Task.Factory.StartNew((Action)(() =>
+               {
+                   doc = DocX.Load("表结构说明模板.docx");
 
-            for (int i = 0; i < res.Count; i++)
-            {
-                Paragraph ptmp = doc.InsertParagraph(doc.Paragraphs[0]);
-                Novacode.Table tbltmp = doc.InsertTable(doc.Tables[0]);
-                SetBorder(tbltmp);
-                ptmp.ReplaceText("#TableName#", res[i].Name);
-                tbltmp.Rows[0].Cells[1].ReplaceText("#TableName#", res[i].Name);
-                tbltmp.Rows[1].Cells[1].ReplaceText("#TableDesc#", res[i].Desc ?? "");
-                tbltmp.Rows[2].Cells[1].ReplaceText("#PrimaryKey#", res[i].PrimaryKey);
-                for (int ii = 0; ii < res[i].Columns.Count; ii++)
+                   for (int i = 0; i < res.Count; i++)
+                   {
+                       Paragraph ptmp = doc.InsertParagraph(doc.Paragraphs[0]);
+                       Novacode.Table tbltmp = doc.InsertTable(doc.Tables[0]);
+                       SetBorder(tbltmp);
+                       ptmp.ReplaceText("#TableName#", res[i].Name);
+                       tbltmp.Rows[0].Cells[1].ReplaceText("#TableName#", res[i].Name);
+                       tbltmp.Rows[1].Cells[1].ReplaceText("#TableDesc#", res[i].Desc ?? "");
+                       tbltmp.Rows[2].Cells[1].ReplaceText("#PrimaryKey#", res[i].PrimaryKey);
+                       for (int ii = 0; ii < res[i].Columns.Count; ii++)
+                       {
+                           Novacode.Row rowtmp = tbltmp.InsertRow(tbltmp.Rows[4]);
+                           rowtmp.Cells[0].ReplaceText("#ColumnName#", res[i].Columns[ii].Name);
+                           rowtmp.Cells[1].ReplaceText("#ColumnType#", res[i].Columns[ii].Type);
+                           rowtmp.Cells[2].ReplaceText("#ColumnDesc#", res[i].Columns[ii].Desc ?? "");
+                           string remark = "";
+                           if (res[i].Columns[ii].IsIdentity)
+                           {
+                               remark += "自增;";
+                           }
+                           if (res[i].Columns[ii].IsNullable)
+                           {
+                               remark += "可空;";
+                           }
+                           if (!string.IsNullOrWhiteSpace(res[i].Columns[ii].Default))
+                           {
+                               remark += "默认(" + res[i].Columns[ii].Default + ");";
+                           }
+                           rowtmp.Cells[3].ReplaceText("#ColumnRemark#", remark);
+                       }
+                       tbltmp.RemoveRow(4);
+                   }
+                   doc.RemoveParagraph(doc.Paragraphs[0]);
+                   doc.Tables[0].Remove();
+               }));
+                btnDoc.Text = "生成表结构说明";
+                btnDoc.Enabled = true;
+                folderBrowserDialog1.ShowNewFolderButton = true;
+                folderBrowserDialog1.Description = "请选择文件路径";
+                folderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                System.Windows.Forms.DialogResult diares = folderBrowserDialog1.ShowDialog();
+                if (diares == DialogResult.OK || diares == DialogResult.Yes)
                 {
-                    Novacode.Row rowtmp = tbltmp.InsertRow(tbltmp.Rows[4]);
-                    rowtmp.Cells[0].ReplaceText("#ColumnName#", res[i].Columns[ii].Name);
-                    rowtmp.Cells[1].ReplaceText("#ColumnType#", res[i].Columns[ii].Type);
-                    rowtmp.Cells[2].ReplaceText("#ColumnDesc#", res[i].Columns[ii].Desc ?? "");
-                    string remark = "";
-                    if (res[i].Columns[ii].IsIdentity)
+                    string str = folderBrowserDialog1.SelectedPath;
+                    string filepath = Path.Combine(str, DateTime.Now.ToString("yyyy-MM-dd") + "结构说明.docx");
+                    if (File.Exists(filepath))
                     {
-                        remark += "自增;";
+                        if (MessageBox.Show("发现已存在文件" + filepath + "是否覆盖？", "文件输出选择", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            File.Delete(filepath);
+                        }
                     }
-                    if (res[i].Columns[ii].IsNullable)
-                    {
-                        remark += "可空;";
-                    }
-                    if (!string.IsNullOrWhiteSpace(res[i].Columns[ii].Default))
-                    {
-                        remark += "默认(" + res[i].Columns[ii].Default + ");";
-                    }
-                    rowtmp.Cells[3].ReplaceText("#ColumnRemark#", remark);
+                    doc.SaveAs(filepath);
+                    MessageBox.Show("生成成功!");
+                    System.Diagnostics.Process.Start("Explorer.exe", "/select," + filepath);
                 }
-                tbltmp.RemoveRow(4);
             }
-            doc.RemoveParagraph(doc.Paragraphs[0]);
-            doc.Tables[0].Remove();
-            folderBrowserDialog1.ShowNewFolderButton = true;
-            folderBrowserDialog1.Description = "请选择文件路径";
-            folderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK || folderBrowserDialog1.ShowDialog() == DialogResult.Yes)
+            catch (Exception ex)
             {
-                string str = folderBrowserDialog1.SelectedPath;
-                string filepath = Path.Combine(str, DateTime.Now.ToString("yyyy-MM-dd") + "结构说明.docx");
-                if (File.Exists(filepath))
-                {
-                    if (MessageBox.Show("发现已存在文件" + filepath + "是否覆盖？", "文件输出选择", MessageBoxButtons.OKCancel) != DialogResult.OK)
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        File.Delete(filepath);
-                    }
-                }
-                doc.SaveAs(filepath);
-                MessageBox.Show("生成成功!");
-                System.Diagnostics.Process.Start("Explorer.exe", "/select," + filepath);
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                btnDoc.Text = "生成表结构说明";
+                btnDoc.Enabled = true;
             }
         }
 
         private async Task<List<TableStruct>> CreateTableList()
         {
-            SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+            SqlServerIDbAccess iDb = IDBFactory.CreateIDB(DataTransfer.iDb.ConnectionString, "SQLSERVER") as SqlServerIDbAccess;
             List<string> tblNames = new List<string>();
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
@@ -681,10 +718,25 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
 
         private async void button6_Click(object sender, EventArgs e)
         {
-            List<TableStruct> res = await CreateTableList();
+            btnXML.Text = "执行中...";
+            btnXML.Enabled = false;
+            List<TableStruct> res = null;
+            try
+            {
+                res = await CreateTableList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                btnXML.Text = "导出表结构XML";
+                btnXML.Enabled = true;
+                return;
+            }
             if (res.Count == 0)
             {
                 MessageBox.Show("请选中表!");
+                btnXML.Text = "导出表结构XML";
+                btnXML.Enabled = true;
                 return;
             }
             StringBuilder sb = new StringBuilder();
@@ -698,11 +750,13 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                 }
                 sb.AppendLine("</" + res[i].Name + ">");
             }
-
+            btnXML.Text = "导出表结构XML";
+            btnXML.Enabled = true;
             folderBrowserDialog1.ShowNewFolderButton = true;
             folderBrowserDialog1.Description = "请选择文件路径";
             folderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK || folderBrowserDialog1.ShowDialog() == DialogResult.Yes)
+            System.Windows.Forms.DialogResult diares = folderBrowserDialog1.ShowDialog();
+            if (diares == DialogResult.OK || diares == DialogResult.Yes)
             {
                 string str = folderBrowserDialog1.SelectedPath;
                 string filepath = Path.Combine(str, DateTime.Now.ToString("yyyy-MM-dd") + "结构说明.xml");
@@ -1096,13 +1150,41 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
             string res = "";
             if (radTable.Checked)
             {
-                if (MessageBox.Show("是否希望导出带数据的insert语句?", "确认框", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                if (MessageBox.Show("是否希望导出带数据的insert语句(image、text数据类型的字段不参与导出)?", "确认框", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 {
-                    res = await CreateTblSql(true);
+                    btnSQL.Text = "执行中...";
+                    btnSQL.Enabled = false;
+                    try
+                    {
+                        res = await CreateTblSql(true);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                    }
+                    finally
+                    {
+                        btnSQL.Text = "生成SQL";
+                        btnSQL.Enabled = true;
+                    }
                 }
                 else
                 {
-                    res = await CreateTblSql(false);
+                    btnSQL.Text = "执行中...";
+                    btnSQL.Enabled = false;
+                    try
+                    {
+                        res = await CreateTblSql(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                    }
+                    finally
+                    {
+                        btnSQL.Text = "生成SQL";
+                        btnSQL.Enabled = true;
+                    }
                 }
 
             }
@@ -1122,7 +1204,8 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
             folderBrowserDialog1.ShowNewFolderButton = true;
             folderBrowserDialog1.Description = "请选择文件路径";
             folderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK || folderBrowserDialog1.ShowDialog() == DialogResult.Yes)
+            System.Windows.Forms.DialogResult diares = folderBrowserDialog1.ShowDialog();
+            if (diares == DialogResult.OK || diares == DialogResult.Yes)
             {
                 string str = folderBrowserDialog1.SelectedPath;
                 string filepath = Path.Combine(str, DateTime.Now.ToString("yyyy-MM-dd") + "Gene.sql");
@@ -1137,7 +1220,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
                         File.Delete(filepath);
                     }
                 }
-                File.WriteAllText(filepath, res);
+                File.WriteAllText(filepath, res, Encoding.UTF8);
                 MessageBox.Show("生成成功!");
                 System.Diagnostics.Process.Start("Explorer.exe", "/select," + filepath);
             }
@@ -1148,7 +1231,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
             List<TableStruct> li = await CreateTableList();
             if (li.Count == 0) { MessageBox.Show("请先选择表!"); return ""; }
             StringBuilder sb = new StringBuilder();
-            SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+            SqlServerIDbAccess iDb = IDBFactory.CreateIDB(DataTransfer.iDb.ConnectionString, "SQLSERVER") as SqlServerIDbAccess;
             await Task.Factory.StartNew(() =>
             {
                 if (isContainInsert)
@@ -1177,7 +1260,7 @@ go
                         sb.AppendLine(iDb.GeneInsertSql(tbl.Name, ref count));
                         sb.AppendLine("print '插入成功,总共:" + count + "行'");
                     }
-                    sb.AppendLine("--****************<" + tbl.Name + ">**************");
+                    sb.AppendLine("--****************</" + tbl.Name + ">**************");
                 });
             });
 
@@ -1185,7 +1268,7 @@ go
         }
         private string CreateViewSql()
         {
-            SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+            SqlServerIDbAccess iDb = IDBFactory.CreateIDB(DataTransfer.iDb.ConnectionString, "SQLSERVER") as SqlServerIDbAccess;
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
@@ -1203,7 +1286,7 @@ end
 go
 ", viewName));
                     sb.Append(iDb.CreateViewSql(viewName));
-                    sb.AppendLine(string.Format("go\r\nprint '已创建视图:{0}'\r\ngo\r\n--****************</", viewName) + viewName + ">**************");
+                    sb.AppendLine(string.Format("\r\ngo\r\nprint '已创建视图:{0}'\r\ngo\r\n--****************</", viewName) + viewName + ">**************");
                 }
             }
             return sb.ToString();
@@ -1254,6 +1337,11 @@ go", funName));
                 }
             }
             return sb.ToString();
+        }
+
+        private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new About().ShowDialog();
         }
     }
 
