@@ -57,15 +57,19 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.tblContext = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.复制ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.删除表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.新建表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.left_编辑 = new System.Windows.Forms.ToolStripMenuItem();
+            this.left_复制 = new System.Windows.Forms.ToolStripMenuItem();
+            this.left_删除表 = new System.Windows.Forms.ToolStripMenuItem();
+            this.left_新建表 = new System.Windows.Forms.ToolStripMenuItem();
+            this.left_删除视图 = new System.Windows.Forms.ToolStripMenuItem();
+            this.left_删除函数 = new System.Windows.Forms.ToolStripMenuItem();
+            this.left_删除存储过程 = new System.Windows.Forms.ToolStripMenuItem();
+            this.left_truncate表 = new System.Windows.Forms.ToolStripMenuItem();
             this.colContext = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.删除列ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.添加列ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.col_编辑 = new System.Windows.Forms.ToolStripMenuItem();
+            this.col_复制 = new System.Windows.Forms.ToolStripMenuItem();
+            this.col_删除列 = new System.Windows.Forms.ToolStripMenuItem();
+            this.col_添加列 = new System.Windows.Forms.ToolStripMenuItem();
             this.label4 = new System.Windows.Forms.Label();
             this.alterContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -354,78 +358,110 @@
             // tblContext
             // 
             this.tblContext.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.复制ToolStripMenuItem,
-            this.删除表ToolStripMenuItem,
-            this.新建表ToolStripMenuItem});
+            this.left_编辑,
+            this.left_复制,
+            this.left_删除表,
+            this.left_新建表,
+            this.left_删除视图,
+            this.left_删除函数,
+            this.left_删除存储过程,
+            this.left_truncate表});
             this.tblContext.Name = "tblContext";
-            this.tblContext.Size = new System.Drawing.Size(113, 92);
+            this.tblContext.Size = new System.Drawing.Size(149, 180);
             // 
-            // toolStripMenuItem1
+            // left_编辑
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
-            this.toolStripMenuItem1.Text = "编辑";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.left_编辑.Name = "left_编辑";
+            this.left_编辑.Size = new System.Drawing.Size(148, 22);
+            this.left_编辑.Text = "编辑";
+            this.left_编辑.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
-            // 复制ToolStripMenuItem
+            // left_复制
             // 
-            this.复制ToolStripMenuItem.Name = "复制ToolStripMenuItem";
-            this.复制ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-            this.复制ToolStripMenuItem.Text = "复制";
-            this.复制ToolStripMenuItem.Click += new System.EventHandler(this.复制ToolStripMenuItem_Click);
+            this.left_复制.Name = "left_复制";
+            this.left_复制.Size = new System.Drawing.Size(148, 22);
+            this.left_复制.Text = "复制";
+            this.left_复制.Click += new System.EventHandler(this.复制ToolStripMenuItem_Click);
             // 
-            // 删除表ToolStripMenuItem
+            // left_删除表
             // 
-            this.删除表ToolStripMenuItem.Name = "删除表ToolStripMenuItem";
-            this.删除表ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-            this.删除表ToolStripMenuItem.Text = "删除表";
-            this.删除表ToolStripMenuItem.Click += new System.EventHandler(this.删除表ToolStripMenuItem_Click);
+            this.left_删除表.Name = "left_删除表";
+            this.left_删除表.Size = new System.Drawing.Size(148, 22);
+            this.left_删除表.Text = "删除表";
+            this.left_删除表.Click += new System.EventHandler(this.删除表ToolStripMenuItem_Click);
             // 
-            // 新建表ToolStripMenuItem
+            // left_新建表
             // 
-            this.新建表ToolStripMenuItem.Name = "新建表ToolStripMenuItem";
-            this.新建表ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-            this.新建表ToolStripMenuItem.Text = "新建表";
-            this.新建表ToolStripMenuItem.Click += new System.EventHandler(this.新建表ToolStripMenuItem_Click);
+            this.left_新建表.Name = "left_新建表";
+            this.left_新建表.Size = new System.Drawing.Size(148, 22);
+            this.left_新建表.Text = "新建表";
+            this.left_新建表.Click += new System.EventHandler(this.新建表ToolStripMenuItem_Click);
+            // 
+            // left_删除视图
+            // 
+            this.left_删除视图.Name = "left_删除视图";
+            this.left_删除视图.Size = new System.Drawing.Size(148, 22);
+            this.left_删除视图.Text = "删除视图";
+            this.left_删除视图.Click += new System.EventHandler(this.left_删除视图_Click);
+            // 
+            // left_删除函数
+            // 
+            this.left_删除函数.Name = "left_删除函数";
+            this.left_删除函数.Size = new System.Drawing.Size(148, 22);
+            this.left_删除函数.Text = "删除函数";
+            this.left_删除函数.Click += new System.EventHandler(this.left_删除函数_Click);
+            // 
+            // left_删除存储过程
+            // 
+            this.left_删除存储过程.Name = "left_删除存储过程";
+            this.left_删除存储过程.Size = new System.Drawing.Size(148, 22);
+            this.left_删除存储过程.Text = "删除存储过程";
+            this.left_删除存储过程.Click += new System.EventHandler(this.left_删除存储过程_Click);
+            // 
+            // left_truncate表
+            // 
+            this.left_truncate表.Name = "left_truncate表";
+            this.left_truncate表.Size = new System.Drawing.Size(148, 22);
+            this.left_truncate表.Text = "truncate表";
+            this.left_truncate表.Click += new System.EventHandler(this.truncate表ToolStripMenuItem_Click);
             // 
             // colContext
             // 
             this.colContext.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem5,
-            this.删除列ToolStripMenuItem,
-            this.添加列ToolStripMenuItem});
+            this.col_编辑,
+            this.col_复制,
+            this.col_删除列,
+            this.col_添加列});
             this.colContext.Name = "colContext";
-            this.colContext.Size = new System.Drawing.Size(113, 92);
+            this.colContext.Size = new System.Drawing.Size(153, 114);
             // 
-            // toolStripMenuItem3
+            // col_编辑
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(112, 22);
-            this.toolStripMenuItem3.Text = "编辑";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            this.col_编辑.Name = "col_编辑";
+            this.col_编辑.Size = new System.Drawing.Size(152, 22);
+            this.col_编辑.Text = "编辑";
+            this.col_编辑.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
-            // toolStripMenuItem5
+            // col_复制
             // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(112, 22);
-            this.toolStripMenuItem5.Text = "复制";
-            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
+            this.col_复制.Name = "col_复制";
+            this.col_复制.Size = new System.Drawing.Size(152, 22);
+            this.col_复制.Text = "复制";
+            this.col_复制.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
             // 
-            // 删除列ToolStripMenuItem
+            // col_删除列
             // 
-            this.删除列ToolStripMenuItem.Name = "删除列ToolStripMenuItem";
-            this.删除列ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-            this.删除列ToolStripMenuItem.Text = "删除列";
-            this.删除列ToolStripMenuItem.Click += new System.EventHandler(this.删除列ToolStripMenuItem_Click);
+            this.col_删除列.Name = "col_删除列";
+            this.col_删除列.Size = new System.Drawing.Size(152, 22);
+            this.col_删除列.Text = "删除列";
+            this.col_删除列.Click += new System.EventHandler(this.删除列ToolStripMenuItem_Click);
             // 
-            // 添加列ToolStripMenuItem
+            // col_添加列
             // 
-            this.添加列ToolStripMenuItem.Name = "添加列ToolStripMenuItem";
-            this.添加列ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-            this.添加列ToolStripMenuItem.Text = "添加列";
-            this.添加列ToolStripMenuItem.Click += new System.EventHandler(this.添加列ToolStripMenuItem_Click);
+            this.col_添加列.Name = "col_添加列";
+            this.col_添加列.Size = new System.Drawing.Size(152, 22);
+            this.col_添加列.Text = "添加列";
+            this.col_添加列.Click += new System.EventHandler(this.添加列ToolStripMenuItem_Click);
             // 
             // label4
             // 
@@ -764,20 +800,20 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.ContextMenuStrip tblContext;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem 复制ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem left_编辑;
+        private System.Windows.Forms.ToolStripMenuItem left_复制;
         private System.Windows.Forms.ContextMenuStrip colContext;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem col_编辑;
+        private System.Windows.Forms.ToolStripMenuItem col_复制;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ToolStripMenuItem 删除表ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 新建表ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem left_删除表;
+        private System.Windows.Forms.ToolStripMenuItem left_新建表;
         private System.Windows.Forms.ToolStripMenuItem 编辑连接ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 删除列ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem col_删除列;
         private System.Windows.Forms.ContextMenuStrip alterContext;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem 添加列ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem col_添加列;
         private System.Windows.Forms.ContextMenuStrip selContext;
         private System.Windows.Forms.ToolStripMenuItem 全选ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 反选ToolStripMenuItem;
@@ -804,5 +840,9 @@
         private System.Windows.Forms.Button btnXML;
         private System.Windows.Forms.Button btnDoc;
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem left_删除视图;
+        private System.Windows.Forms.ToolStripMenuItem left_删除函数;
+        private System.Windows.Forms.ToolStripMenuItem left_删除存储过程;
+        private System.Windows.Forms.ToolStripMenuItem left_truncate表;
     }
 }

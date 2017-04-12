@@ -40,6 +40,7 @@ namespace CodeCreator
 
         void dataGridView2_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
+            //表格绑定数据错误时不做处理
         }
 
         private void CHKTable()
@@ -348,15 +349,37 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                     InitFuncInfo(objName);
                 }
             }
-            else if (e.Button == System.Windows.Forms.MouseButtons.Right && e.ColumnIndex > 1)  //点击的是鼠标右键，不是第一列和序号列
+            else if (e.Button == System.Windows.Forms.MouseButtons.Right)  //点击的是鼠标右键
             {
-                //右键选中单元格
-                if (dataGridView2.SelectedCells.Count > 1)
+                //选中行的情况,排除在非选中行上鼠标右键
+                if (dataGridView1.SelectedRows.Count > 0)
                 {
-                    //多选情况下的右键菜单
+                    if (!dataGridView1.SelectedRows.Contains(dataGridView1.Rows[e.RowIndex]))
+                    {
+                        return;
+                    }
+                }
+                //多选情况下只提供复制功能
+                if (dataGridView1.SelectedCells.Count > 1)
+                {
+                    //排除鼠标右键不在选中单元格上的情况
+                    if (!dataGridView1.SelectedCells.Contains(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex]))
+                    {
+                        return;
+                    }
+                    left_编辑.Visible = false;
+                    left_删除表.Visible = false;
+                    left_删除存储过程.Visible = false;
+                    left_删除函数.Visible = false;
+                    left_删除视图.Visible = false;
+                    left_新建表.Visible = false;
+                    left_truncate表.Visible = false;
+                    this.tblContext.Show(MousePosition.X, MousePosition.Y);
+                    return;
                 }
                 else
                 {
+                    if (e.ColumnIndex < 2) { return; }
                     //单元情况下的右键菜单
                     tblEdit = e.ColumnIndex;//记录编辑的列索引
                     tblRowEdit = e.RowIndex;//记录编辑的行索引
@@ -366,17 +389,33 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                         dataGridView1.Rows[i].Selected = false;
                     }
                     this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Selected = true;
+                    //先全部不显示
+                    left_编辑.Visible = false;
+                    left_删除表.Visible = false;
+                    left_新建表.Visible = false;
+                    left_删除函数.Visible = false;
+                    left_删除视图.Visible = false;
+                    left_删除存储过程.Visible = false;
+                    left_truncate表.Visible = false;
+
                     if (radTable.Checked)
                     {
-                        toolStripMenuItem1.Enabled = true;
-                        删除表ToolStripMenuItem.Enabled = true;
-                        新建表ToolStripMenuItem.Enabled = true;
+                        left_编辑.Visible = true;
+                        left_删除表.Visible = true;
+                        left_新建表.Visible = true;
+                        left_truncate表.Visible = true;
                     }
-                    else
+                    else if (radView.Checked)
                     {
-                        toolStripMenuItem1.Enabled = false;
-                        删除表ToolStripMenuItem.Enabled = false;
-                        新建表ToolStripMenuItem.Enabled = false;
+                        left_删除视图.Visible = true;
+                    }
+                    else if (radProc.Checked)
+                    {
+                        left_删除存储过程.Visible = true;
+                    }
+                    else if (radFunc.Checked)
+                    {
+                        left_删除函数.Visible = true;
                     }
                     this.tblContext.Show(MousePosition.X, MousePosition.Y); //MousePosition.X, MousePosition.Y 是为了让菜单在所选行的位置显示
                 }
@@ -461,9 +500,45 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
 
         private void dataGridView2_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (!radStruct.Checked) { return; }
             if (e.Button == System.Windows.Forms.MouseButtons.Right && e.ColumnIndex > -1 && e.RowIndex > -1)  //点击的是鼠标右键，并且不是表头
             {
+                //选中行的情况,排除在非选中行上鼠标右键
+                if (dataGridView2.SelectedRows.Count > 0)
+                {
+                    if (!dataGridView2.SelectedRows.Contains(dataGridView2.Rows[e.RowIndex]))
+                    {
+                        return;
+                    }
+                }
+                //多选情况下只提供复制功能
+                if (dataGridView2.SelectedCells.Count > 1)
+                {
+                    //排除鼠标右键不在选中单元格上的情况
+                    if (!dataGridView2.SelectedCells.Contains(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex]))
+                    {
+                        return;
+                    }
+                    col_编辑.Visible = false;
+                    col_删除列.Visible = false;
+                    col_添加列.Visible = false;
+                    this.colContext.Show(MousePosition.X, MousePosition.Y);
+                    return;
+                }
+                //如果当前显示的是数据
+                if (!radStruct.Checked || radView.Checked)
+                {
+                    for (int i = 0; i < dataGridView2.Rows.Count; i++)
+                    {
+                        dataGridView2.Rows[i].Selected = false;
+                    }
+                    this.dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Selected = true;
+                    col_编辑.Visible = false;
+                    col_删除列.Visible = false;
+                    col_添加列.Visible = false;
+                    this.colContext.Show(MousePosition.X, MousePosition.Y); //MousePosition.X, MousePosition.Y 是为了让菜单在所选行的位置显示
+                    return;
+                }
+
                 if (e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 3 || e.ColumnIndex == 7)
                 {
                     //右键选中单元格
@@ -475,6 +550,9 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                         dataGridView2.Rows[i].Selected = false;
                     }
                     this.dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Selected = true;
+                    col_编辑.Visible = true;
+                    col_删除列.Visible = true;
+                    col_添加列.Visible = true;
                     this.colContext.Show(MousePosition.X, MousePosition.Y); //MousePosition.X, MousePosition.Y 是为了让菜单在所选行的位置显示
                 }
                 else if (e.ColumnIndex == 4 || e.ColumnIndex == 5)
@@ -482,6 +560,11 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                     //右键选中单元格
                     colColIndex = e.ColumnIndex;//记录编辑的列索引
                     colRowIndex = e.RowIndex;//记录编辑的行索引
+                    for (int i = 0; i < dataGridView2.Rows.Count; i++)
+                    {
+                        dataGridView2.Rows[i].Selected = false;
+                    }
+                    this.dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Selected = true;
                     this.alterContext.Show(MousePosition.X, MousePosition.Y); //MousePosition.X, MousePosition.Y 是为了让菜单在所选行的位置显示
                 }
             }
@@ -915,12 +998,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
             string sql = @"
 select 
 	序号=ROW_NUMBER() OVER(order BY table_name),
-	视图名称=table_name,
-	说明=(SELECT value   
-FROM sys.extended_properties ds  
-LEFT JOIN sysobjects tbs ON ds.major_id=tbs.id  
-WHERE  ds.minor_id=0 and  
- tbs.name=table_name )
+	视图名称=table_name
 from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
 ";
 
@@ -929,8 +1007,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
             int wid = dataGridView1.Width;
             dataGridView1.Columns[0].Width = 50;
             dataGridView1.Columns[1].Width = 100;
-            dataGridView1.Columns[2].Width = Convert.ToInt32((wid - 150 - 60) * 0.4);
-            dataGridView1.Columns[3].Width = Convert.ToInt32((wid - 150 - 60) * 0.6);
+            dataGridView1.Columns[2].Width = Convert.ToInt32(wid - 150 - 60);
             if (ds.Tables[0].Rows.Count > 0)
             {
                 tblStruct = iDb.GetTableStruct(ds.Tables[0].Rows[0]["视图名称"].ToString());
@@ -1066,6 +1143,15 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
             }
         }
 
+        private string wrapName(string name)
+        {
+            if (!string.IsNullOrWhiteSpace(name) || !name.StartsWith("["))
+            {
+                name = "[" + name + "]";
+            }
+            return name;
+        }
+
         private void radData_Click(object sender, EventArgs e)
         {
             if (radView.Checked)
@@ -1075,7 +1161,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
                 radIndex.Enabled = false;
             }
             IDbAccess iDb = DataTransfer.iDb;
-            string sql = "select * from " + tblStruct.Name;
+            string sql = "select * from " + wrapName(tblStruct.Name);
             DataTable dt = iDb.GetDataTable(sql);
             dataGridView2.DataSource = dt.DefaultView;
             richTextBox1.Visible = false;
@@ -1342,6 +1428,51 @@ go", funName));
         private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new About().ShowDialog();
+        }
+
+        private void left_删除视图_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("确定删除视图?", "确认框", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+            {
+                DBUtil.SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+                string viewname = dataGridView1.Rows[tblRowEdit].Cells[2].Value.ToString();
+                iDb.ExecuteSql("drop view [" + viewname + "]");
+                CHKView();
+            }
+        }
+
+        private void left_删除函数_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("确定删除函数?", "确认框", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+            {
+                DBUtil.SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+                string funcname = dataGridView1.Rows[tblRowEdit].Cells[2].Value.ToString();
+                iDb.ExecuteSql("drop function [" + funcname + "]");
+                CHKFunc();
+            }
+        }
+
+        private void left_删除存储过程_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("确定删除存储过程?", "确认框", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+            {
+                DBUtil.SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+                string procname = dataGridView1.Rows[tblRowEdit].Cells[2].Value.ToString();
+                iDb.ExecuteSql("drop proc [" + procname + "]");
+                CHKProc();
+            }
+        }
+
+        private void truncate表ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("确定truncate表?", "确认框", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+            {
+                DBUtil.SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+                string tablename = dataGridView1.Rows[tblRowEdit].Cells[2].Value.ToString();
+                iDb.ExecuteSql("truncate table [" + tablename + "]");
+                InitTableInfo();
+                MessageBox.Show("truncate表:" + tablename + "成功!");
+            }
         }
     }
 

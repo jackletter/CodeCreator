@@ -169,16 +169,17 @@
     <None Include="TmpSolutions\JACKOA代码生成.msln">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="使用说明.docx" />
     <None Include="表结构说明模板.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="html\About.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="img\i.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="lib\DBUtil.dll" />
     <Content Include="lib\DocX.dll" />
