@@ -1,6 +1,6 @@
 ﻿namespace CodeCreator
 {
-    partial class MSMain
+    partial class PostgreSqlMain
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MSMain));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.选择 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
@@ -113,7 +112,7 @@
             this.dataGridView1.AllowUserToOrderColumns = true;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -145,8 +144,8 @@
             this.dataGridView2.AllowUserToDeleteRows = false;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -155,7 +154,7 @@
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 30;
             this.dataGridView2.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView2.Size = new System.Drawing.Size(728, 259);
+            this.dataGridView2.Size = new System.Drawing.Size(686, 259);
             this.dataGridView2.TabIndex = 1;
             this.dataGridView2.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellEndEdit);
             this.dataGridView2.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseClick);
@@ -283,7 +282,7 @@
             this.关于ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1336, 29);
+            this.menuStrip1.Size = new System.Drawing.Size(1294, 29);
             this.menuStrip1.TabIndex = 12;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -395,6 +394,7 @@
             this.left_新建表.Name = "left_新建表";
             this.left_新建表.Size = new System.Drawing.Size(148, 22);
             this.left_新建表.Text = "新建表";
+            this.left_新建表.Visible = false;
             this.left_新建表.Click += new System.EventHandler(this.新建表ToolStripMenuItem_Click);
             // 
             // left_删除视图
@@ -554,6 +554,7 @@
             // radFunc
             // 
             this.radFunc.AutoSize = true;
+            this.radFunc.Enabled = false;
             this.radFunc.Font = new System.Drawing.Font("宋体", 11F);
             this.radFunc.Location = new System.Drawing.Point(301, 33);
             this.radFunc.Name = "radFunc";
@@ -577,15 +578,15 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.richTextBox1.Font = new System.Drawing.Font("宋体", 14F);
             this.richTextBox1.Location = new System.Drawing.Point(596, 57);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(728, 259);
+            this.richTextBox1.Size = new System.Drawing.Size(686, 259);
             this.richTextBox1.TabIndex = 22;
             this.richTextBox1.Text = "";
             this.richTextBox1.Visible = false;
@@ -594,6 +595,7 @@
             // 
             this.btnSQL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnSQL.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSQL.Enabled = false;
             this.btnSQL.Font = new System.Drawing.Font("宋体", 14F);
             this.btnSQL.Location = new System.Drawing.Point(165, 395);
             this.btnSQL.Name = "btnSQL";
@@ -618,6 +620,7 @@
             // radIndex
             // 
             this.radIndex.AutoSize = true;
+            this.radIndex.Enabled = false;
             this.radIndex.Font = new System.Drawing.Font("宋体", 11F);
             this.radIndex.Location = new System.Drawing.Point(354, 1);
             this.radIndex.Name = "radIndex";
@@ -630,6 +633,7 @@
             // radTritbl
             // 
             this.radTritbl.AutoSize = true;
+            this.radTritbl.Enabled = false;
             this.radTritbl.Font = new System.Drawing.Font("宋体", 11F);
             this.radTritbl.Location = new System.Drawing.Point(255, 0);
             this.radTritbl.Name = "radTritbl";
@@ -642,6 +646,7 @@
             // radConstraint
             // 
             this.radConstraint.AutoSize = true;
+            this.radConstraint.Enabled = false;
             this.radConstraint.Font = new System.Drawing.Font("宋体", 11F);
             this.radConstraint.Location = new System.Drawing.Point(172, 1);
             this.radConstraint.Name = "radConstraint";
@@ -699,7 +704,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Italic);
-            this.groupBox1.Location = new System.Drawing.Point(482, 322);
+            this.groupBox1.Location = new System.Drawing.Point(440, 322);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(842, 144);
             this.groupBox1.TabIndex = 26;
@@ -710,6 +715,7 @@
             // 
             this.btnXML.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnXML.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnXML.Enabled = false;
             this.btnXML.Font = new System.Drawing.Font("宋体", 14F);
             this.btnXML.Location = new System.Drawing.Point(5, 393);
             this.btnXML.Name = "btnXML";
@@ -723,6 +729,7 @@
             // 
             this.btnDoc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDoc.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDoc.Enabled = false;
             this.btnDoc.Font = new System.Drawing.Font("宋体", 14F);
             this.btnDoc.Location = new System.Drawing.Point(5, 338);
             this.btnDoc.Name = "btnDoc";
@@ -732,12 +739,12 @@
             this.btnDoc.UseVisualStyleBackColor = true;
             this.btnDoc.Click += new System.EventHandler(this.button5_Click);
             // 
-            // MSMain
+            // PostgreSqlMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1336, 472);
+            this.ClientSize = new System.Drawing.Size(1294, 472);
             this.Controls.Add(this.btnDoc);
             this.Controls.Add(this.btnXML);
             this.Controls.Add(this.groupBox1);
@@ -756,10 +763,9 @@
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.menuStrip1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "MSMain";
-            this.Text = "MSSqlServer主窗口";
+            this.Name = "PostgreSqlMain";
+            this.Text = "PostgreSql主窗口";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form4_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

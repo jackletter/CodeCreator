@@ -17,10 +17,10 @@ using System.Threading.Tasks;
 
 namespace CodeCreator
 {
-    public partial class MSMain : Form
+    public partial class PostgreSqlMain : Form
     {
-        private TableStruct tblStruct = null;
-        public MSMain()
+        private DBUtil.PostgreSqlTableStruct tblStruct = null;
+        public PostgreSqlMain()
         {
             InitializeComponent();
             this.FormClosed += Form4_FormClosed;
@@ -35,6 +35,11 @@ namespace CodeCreator
             dataGridView2.DoubleBuffered(true);
             dataGridView2.Visible = true;
             richTextBox1.Visible = false;
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TmpSolutions");
+            if (File.Exists(Path.Combine(path, "后台服务代码.msln")))
+            {
+                textBox3.Text = Path.Combine(path, "后台服务代码.msln");
+            }
             CHKTable();
         }
 
@@ -45,17 +50,16 @@ namespace CodeCreator
 
         private void CHKTable()
         {
-            SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+            PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
             string sql = @"
-select 
-	序号=ROW_NUMBER() OVER(order BY table_name),
-	表名=table_name,
-	说明=(SELECT value   
-FROM sys.extended_properties ds  
-LEFT JOIN sysobjects tbs ON ds.major_id=tbs.id  
-WHERE  ds.minor_id=0 and  
- tbs.name=table_name )
-from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
+SELECT row_number() over(order by a.relname) as 序号,
+       a.relname AS 表名,
+       b.description AS 说明
+  FROM pg_class a
+       LEFT OUTER JOIN pg_description b ON b.objsubid=0 AND a.oid = b.objoid
+ WHERE a.relnamespace = (SELECT oid FROM pg_namespace WHERE nspname='public') --用户表一般存储在public模式下
+   AND a.relkind='r'
+ ORDER BY a.relname
 ";
             DataSet ds = iDb.GetDataSet(sql);
             dataGridView1.DataSource = ds.Tables[0];
@@ -67,7 +71,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
             if (ds.Tables[0].Rows.Count > 0)
             {
 
-                tblStruct = iDb.GetTableStruct(ds.Tables[0].Rows[0]["表名"].ToString());
+                tblStruct = (DBUtil.PostgreSqlTableStruct)iDb.GetTableStruct(ds.Tables[0].Rows[0]["表名"].ToString());
                 InitTableInfo();
             }
         }
@@ -89,8 +93,8 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                 string viewSql = "";
                 if (!string.IsNullOrEmpty(viewName))
                 {
-                    SqlServerIDbAccess iDb = IDBFactory.CreateIDB(DataTransfer.iDb.ConnectionString, "SQLSERVER") as SqlServerIDbAccess;
-                    tblStruct = iDb.GetTableStruct(viewName);
+                    PostgreSqlIDbAccess iDb = IDBFactory.CreateIDB(DataTransfer.iDb.ConnectionString, "POSTGRESQL") as PostgreSqlIDbAccess;
+                    tblStruct = (DBUtil.PostgreSqlTableStruct)iDb.GetTableStruct(viewName);
                     viewSql = iDb.CreateViewSql(tblStruct.Name);
                     iDb.conn.Close();
                     iDb.conn.Dispose();
@@ -121,9 +125,9 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
             {
                 if (!string.IsNullOrEmpty(tableName) || tblStruct != null)
                 {
-                    SqlServerIDbAccess iDb = IDBFactory.CreateIDB(DataTransfer.iDb.ConnectionString, "SQLSERVER") as SqlServerIDbAccess;
                     tableName = string.IsNullOrWhiteSpace(tableName) ? tblStruct.Name : tableName;
-                    tblStruct = iDb.GetTableStruct(tableName);
+                    IDbAccess iDb = IDBFactory.CreateIDB(DataTransfer.iDb.ConnectionString, "POSTGRESQL") as PostgreSqlIDbAccess;
+                    tblStruct = (DBUtil.PostgreSqlTableStruct)((DBUtil.PostgreSqlIDbAccess)iDb).GetTableStruct(tableName);
                     iDb.conn.Close();
                     iDb.conn.Dispose();
                     iDb = null;
@@ -140,15 +144,30 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                 for (int i = 0; i < tblStruct.Columns.Count; i++)
                 {
                     DataRow row = dt.NewRow();
-                    row[0] = i + 1;
-                    row[1] = tblStruct.Columns[i].Name;
-                    row[2] = tblStruct.Columns[i].FinalType;
+                    row[0] = i + 1;//序号
+                    row[1] = tblStruct.Columns[i].Name;//列名
+                    row[2] = tblStruct.Columns[i].Type;//类型
 
-                    row[3] = tblStruct.Columns[i].Desc;
-                    row[4] = tblStruct.Columns[i].IsNullable ? "是" : "否";
-                    row[5] = tblStruct.Columns[i].IsUnique ? "是" : "否";
-                    row[6] = tblStruct.Columns[i].FinalIdentity;
-                    row[7] = tblStruct.Columns[i].Default;
+                    row[3] = tblStruct.Columns[i].Desc;//说明
+                    row[4] = tblStruct.Columns[i].IsNullable ? "是" : "否";//是否可空
+                    if (tblStruct.Columns[i].IsUnique)
+                    {
+                        if (tblStruct.Columns[i].IsUniqueUion)
+                        {
+                            string uniCols = tblStruct.Columns[i].UniqueCols;
+                        }
+                        else
+                        {
+                            row[5] = "是";
+                        }
+                    }
+                    else
+                    {
+                        row[5] = "否";
+                    }
+                    row[5] = tblStruct.Columns[i].IsUnique ? (tblStruct.Columns[i].IsUniqueUion ? "是(联合:" + tblStruct.Columns[i].UniqueCols.ToString() + ")" : "是") : "否";//是否唯一
+                    row[6] = "";//自增说明
+                    row[7] = tblStruct.Columns[i].Default;//默认值
                     dt.Rows.Add(row);
                 }
 
@@ -183,9 +202,9 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
         {
             radStruct.Enabled = true;
             radData.Enabled = true;
-            radConstraint.Enabled = true;
-            radTritbl.Enabled = true;
-            radIndex.Enabled = true;
+            //radConstraint.Enabled = true;
+            //radTritbl.Enabled = true;
+            //radIndex.Enabled = true;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -247,7 +266,12 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
 
                 foreach (var key in htres.Keys)
                 {
-                    File.WriteAllText(Path.Combine(str, key.ToString()), htres[key].ToString());
+                    string path = Path.Combine(str, key.ToString().Trim('/'));
+                    if (!Directory.Exists(Path.GetDirectoryName(path)))
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(path));
+                    }
+                    File.WriteAllText(path, htres[key].ToString());
                 }
                 MessageBox.Show("生成成功!");
                 System.Diagnostics.Process.Start("Explorer.exe", "/select," + str);
@@ -285,20 +309,20 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
             ht.Add("TableInstructions", label4.Text);
             List<string> colNames = new List<string>();
             List<string> colTypes = new List<string>();
-            List<bool> colIsIdentities = new List<bool>();
+            //List<bool> colIsIdentities = new List<bool>();
             List<string> colInstructions = new List<string>();
             for (int i = 0; i < dataGridView2.Rows.Count; i++)
             {
                 colNames.Add(dataGridView2.Rows[i].Cells[1].Value.ToString());
                 colTypes.Add(dataGridView2.Rows[i].Cells[2].Value.ToString());
                 colInstructions.Add(dataGridView2.Rows[i].Cells[3].Value.ToString());
-                colIsIdentities.Add(dataGridView2.Rows[i].Cells[6].Value.ToString() == "是");
+                //colIsIdentities.Add(dataGridView2.Rows[i].Cells[6].Value.ToString() == "是");
             }
 
             ht.Add("listColumnNames", colNames);
             ht.Add("listColumnTypes", colTypes);
             ht.Add("listColumnInstructions", colInstructions);
-            ht.Add("listColumnIsIdentities", colIsIdentities);
+            //ht.Add("listColumnIsIdentities", colIsIdentities);
             ht.Add("PrimaryKey", textBox2.Text);
             ht.Add("MslnPath", textBox3.Text);
             DataTransfer.data = ht;
@@ -407,7 +431,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                     {
                         left_编辑.Visible = true;
                         left_删除表.Visible = true;
-                        left_新建表.Visible = true;
+                        //left_新建表.Visible = true;
                         left_truncate表.Visible = true;
                     }
                     else if (radView.Checked)
@@ -463,13 +487,14 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             string newVal = dataGridView1.CurrentCell.Value.ToString();
-            SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+            PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
             if (newVal != tblOldval)
             {
                 if (System.Windows.Forms.DialogResult.OK == MessageBox.Show("是否更新到数据库?", "是否更新", MessageBoxButtons.OKCancel))
                 {
                     if (tblEdit == 2)
                     {
+                        //修改表名
                         try
                         {
                             iDb.RenameTable(tblOldval, newVal);
@@ -484,6 +509,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                     }
                     else if (tblEdit == 3)
                     {
+                        //修改表说明
                         try
                         {
                             iDb.SaveTableDesc(dataGridView1.Rows[tblRowEdit].Cells[2].Value.ToString(), newVal);
@@ -544,7 +570,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                     return;
                 }
 
-                if (e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 3 || e.ColumnIndex == 7)
+                if (e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 3)
                 {
                     //右键选中单元格
                     colColIndex = e.ColumnIndex;//记录编辑的列索引
@@ -560,17 +586,27 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                     col_添加列.Visible = true;
                     this.colContext.Show(MousePosition.X, MousePosition.Y); //MousePosition.X, MousePosition.Y 是为了让菜单在所选行的位置显示
                 }
-                else if (e.ColumnIndex == 4 || e.ColumnIndex == 5)
+                //else if (e.ColumnIndex == 4 || e.ColumnIndex == 5)
+                //{
+                //    //右键选中单元格
+                //    colColIndex = e.ColumnIndex;//记录编辑的列索引
+                //    colRowIndex = e.RowIndex;//记录编辑的行索引
+                //    for (int i = 0; i < dataGridView2.Rows.Count; i++)
+                //    {
+                //        dataGridView2.Rows[i].Selected = false;
+                //    }
+                //    this.dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Selected = true;
+                //    //this.alterContext.Show(MousePosition.X, MousePosition.Y); //MousePosition.X, MousePosition.Y 是为了让菜单在所选行的位置显示
+                //}
+                else
                 {
-                    //右键选中单元格
-                    colColIndex = e.ColumnIndex;//记录编辑的列索引
-                    colRowIndex = e.RowIndex;//记录编辑的行索引
-                    for (int i = 0; i < dataGridView2.Rows.Count; i++)
-                    {
-                        dataGridView2.Rows[i].Selected = false;
-                    }
+                    //其他的列仅提供复制功能
                     this.dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Selected = true;
-                    this.alterContext.Show(MousePosition.X, MousePosition.Y); //MousePosition.X, MousePosition.Y 是为了让菜单在所选行的位置显示
+                    col_编辑.Visible = false;
+                    col_删除列.Visible = false;
+                    col_添加列.Visible = false;
+                    this.colContext.Show(MousePosition.X, MousePosition.Y); //MousePosition.X, MousePosition.Y 是为了让菜单在所选行的位置显示
+                    return;
                 }
             }
         }
@@ -602,13 +638,14 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
         private void dataGridView2_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             string newVal = dataGridView2.CurrentCell.Value.ToString();
-            SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+            PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
             if (newVal != colOldval)
             {
                 if (System.Windows.Forms.DialogResult.OK == MessageBox.Show("是否更新到数据库?", "是否更新", MessageBoxButtons.OKCancel))
                 {
                     if (colColIndex == 1)
                     {
+                        //修改列名
                         try
                         {
                             iDb.RenameColumn(textBox1.Text, colOldval, dataGridView2.CurrentCell.Value.ToString());
@@ -622,6 +659,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                     }
                     else if (colColIndex == 2)
                     {
+                        //修改列类型
                         try
                         {
                             iDb.AlterColumnType(textBox1.Text, dataGridView2.Rows[colRowIndex].Cells[1].Value.ToString(), dataGridView2.Rows[colRowIndex].Cells[2].Value.ToString(), false);
@@ -635,6 +673,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
                     }
                     else if (colColIndex == 3)
                     {
+                        //修改列说明
                         try
                         {
                             iDb.SaveColumnDesc(textBox1.Text, dataGridView2.Rows[colRowIndex].Cells[1].Value.ToString(), newVal);
@@ -876,7 +915,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
         {
             if (MessageBox.Show("确定删除表?", "确认框", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
             {
-                DBUtil.SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+                DBUtil.PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
                 string tblname = dataGridView1.Rows[tblRowEdit].Cells[2].Value.ToString();
                 iDb.DropTable(tblname);
                 this.OnLoad(null);
@@ -894,7 +933,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
             string colname = dataGridView2.Rows[colRowIndex].Cells[1].Value.ToString();
             if (MessageBox.Show("是否删除列?", "确认框", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
             {
-                DBUtil.SqlServerIDbAccess iDb = DataTransfer.iDb as DBUtil.SqlServerIDbAccess;
+                DBUtil.PostgreSqlIDbAccess iDb = DataTransfer.iDb as DBUtil.PostgreSqlIDbAccess;
                 try
                 {
                     iDb.DropColumn(textBox1.Text, colname);
@@ -960,7 +999,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
 
         private void 添加列ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddCol col = new AddCol();
+            AddColPostgreSql col = new AddColPostgreSql();
             DataTransfer.TableName = textBox1.Text;
             col.ShowDialog();
         }
@@ -977,9 +1016,9 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
         {
             btnTMP.Enabled = true;
             btnCode.Enabled = true;
-            btnDoc.Enabled = true;
-            btnSQL.Enabled = true;
-            btnXML.Enabled = true;
+            //btnDoc.Enabled = true;
+            //btnSQL.Enabled = true;
+            //btnXML.Enabled = true;
         }
 
         private void radioButton1_Click(object sender, EventArgs e)
@@ -1000,12 +1039,9 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='BASE TABLE'
 
         private void CHKView()
         {
-            SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+            PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
             string sql = @"
-select 
-	序号=ROW_NUMBER() OVER(order BY table_name),
-	视图名称=table_name
-from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
+select ROW_NUMBER() OVER(order BY viewname) 序号,viewname 视图名称 from pg_views where pg_views.schemaname ='public'
 ";
 
             DataSet ds = iDb.GetDataSet(sql);
@@ -1016,7 +1052,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
             dataGridView1.Columns[2].Width = Convert.ToInt32(wid - 150 - 60);
             if (ds.Tables[0].Rows.Count > 0)
             {
-                tblStruct = iDb.GetTableStruct(ds.Tables[0].Rows[0]["视图名称"].ToString());
+                tblStruct = (DBUtil.PostgreSqlTableStruct)iDb.GetTableStruct(ds.Tables[0].Rows[0]["视图名称"].ToString());
                 InitViewInfo(tblStruct.Name);
             }
         }
@@ -1025,11 +1061,11 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
         {
             CHKProc();
             DisableAllBtn();
-            btnSQL.Enabled = true;
+            //btnSQL.Enabled = true;
         }
         private void CHKProc()
         {
-            SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+            PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
             List<Proc> procs = iDb.GetProcs();
             DataTable dt = new DataTable();
             dt.Columns.Add("序号");
@@ -1061,7 +1097,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
             richTextBox1.Size = dataGridView2.Size;
             dataGridView2.Visible = false;
             richTextBox1.Visible = true;
-            SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+            PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
             richTextBox1.Text = iDb.CreateProcSql(procName);
             DisableAllRad();
         }
@@ -1070,7 +1106,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
         {
             CHKFunc();
             DisableAllBtn();
-            btnSQL.Enabled = true;
+            //btnSQL.Enabled = true;
         }
 
         private void CHKFunc()
@@ -1151,9 +1187,9 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
 
         private string wrapName(string name)
         {
-            if (!string.IsNullOrWhiteSpace(name) || !name.StartsWith("["))
+            if (!string.IsNullOrWhiteSpace(name) || !name.StartsWith("\""))
             {
-                name = "[" + name + "]";
+                name = "\"" + name + "\"";
             }
             return name;
         }
@@ -1242,6 +1278,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
             string res = "";
             if (radTable.Checked)
             {
+                #region 生成建表语句
                 if (MessageBox.Show("是否希望导出带数据的insert语句(image、text数据类型的字段不参与导出)?", "确认框", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 {
                     btnSQL.Text = "执行中...";
@@ -1278,6 +1315,7 @@ from INFORMATION_SCHEMA.TABLES t where t.TABLE_TYPE='VIEW'
                         btnSQL.Enabled = true;
                     }
                 }
+                #endregion
 
             }
             else if (radView.Checked)
@@ -1360,7 +1398,7 @@ go
         }
         private string CreateViewSql()
         {
-            SqlServerIDbAccess iDb = IDBFactory.CreateIDB(DataTransfer.iDb.ConnectionString, "SQLSERVER") as SqlServerIDbAccess;
+            PostgreSqlIDbAccess iDb = IDBFactory.CreateIDB(DataTransfer.iDb.ConnectionString, "POSTGRESQL") as PostgreSqlIDbAccess;
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
@@ -1368,17 +1406,15 @@ go
                 {
                     string viewName = dataGridView1.Rows[i].Cells[2].Value.ToString();
                     sb.Append("\r\n--****************<" + viewName + ">**************\r\n");
-                    sb.Append(string.Format(@"if exists (select 1  
-            from  sys.views  
-           where  name = '{0}')
-begin
-   drop view {0}  
-   print '已删除视图:{0}'
-end
-go
-", viewName));
+                    sb.AppendLine(string.Format(@"create or replace view {0}
+ as", iDb.WrapName(viewName)));
                     sb.Append(iDb.CreateViewSql(viewName));
-                    sb.AppendLine(string.Format("\r\ngo\r\nprint '已创建视图:{0}'\r\ngo\r\n--****************</", viewName) + viewName + ">**************");
+                    sb.AppendLine(string.Format(@"
+do language plpgsql $$
+begin
+ raise notice '已创建视图:{0}';
+end $$;
+--****************</", viewName) + viewName + ">**************");
                 }
             }
             return sb.ToString();
@@ -1473,9 +1509,9 @@ go", funName));
         {
             if (MessageBox.Show("确定truncate表?", "确认框", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
             {
-                DBUtil.SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+                DBUtil.PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
                 string tablename = dataGridView1.Rows[tblRowEdit].Cells[2].Value.ToString();
-                iDb.ExecuteSql("truncate table [" + tablename + "]");
+                iDb.ExecuteSql("truncate table " + iDb.WrapName(tablename));
                 InitTableInfo();
                 MessageBox.Show("truncate表:" + tablename + "成功!");
             }

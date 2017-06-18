@@ -74,6 +74,12 @@
     <Compile Include="AddCol.Designer.cs">
       <DependentUpon>AddCol.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddColPostgreSql.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddColPostgreSql.Designer.cs">
+      <DependentUpon>AddColPostgreSql.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddTable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +95,7 @@
     </Compile>
     <Compile Include="DataTransfer.cs" />
     <Compile Include="DynamicCreator.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +114,9 @@
     <Compile Include="ConnAdd.Designer.cs">
       <DependentUpon>ConnAdd.cs</DependentUpon>
     </Compile>
+    <Content Include="TmpSolutions\后台服务代码\Controller.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="app.config" />
     <None Include="TmpSolutions\JACKOA框架代码生成模板\ModelTmp.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -124,6 +134,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="MslnConf.cs" />
+    <Compile Include="PostgreSqlMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PostgreSqlMain.Designer.cs">
+      <DependentUpon>PostgreSqlMain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="About.resx">
@@ -131,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddCol.resx">
       <DependentUpon>AddCol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddColPostgreSql.resx">
+      <DependentUpon>AddColPostgreSql.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddTable.resx">
       <DependentUpon>AddTable.cs</DependentUpon>
@@ -146,6 +165,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConnAdd.resx">
       <DependentUpon>ConnAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PostgreSqlMain.resx">
+      <DependentUpon>PostgreSqlMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -169,6 +192,9 @@
     <None Include="TmpSolutions\JACKOA代码生成.msln">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="TmpSolutions\后台服务代码.msln">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="使用说明.docx" />
     <None Include="表结构说明模板.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -184,6 +210,8 @@
     <Content Include="lib\DBUtil.dll" />
     <Content Include="lib\DocX.dll" />
     <Content Include="lib\HanZi2PinYin.dll" />
+    <Content Include="lib\Npgsql.dll" />
+    <Content Include="lib\System.Threading.Tasks.Extensions.dll" />
     <None Include="Resources\loading.gif" />
     <None Include="Resources\i.ico" />
   </ItemGroup>

@@ -39,12 +39,13 @@
             this.label4 = new System.Windows.Forms.Label();
             this.btnLogin = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
-            this.radMysql = new System.Windows.Forms.RadioButton();
-            this.radOracle = new System.Windows.Forms.RadioButton();
             this.radSqlserver = new System.Windows.Forms.RadioButton();
+            this.radOracle = new System.Windows.Forms.RadioButton();
+            this.radMysql = new System.Windows.Forms.RadioButton();
             this.comConns = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.picLoad = new System.Windows.Forms.PictureBox();
+            this.radPostgresql = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.picLoad)).BeginInit();
             this.SuspendLayout();
             // 
@@ -85,11 +86,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 12F);
-            this.label1.Location = new System.Drawing.Point(33, 111);
+            this.label1.Location = new System.Drawing.Point(21, 112);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 16);
+            this.label1.Size = new System.Drawing.Size(96, 16);
             this.label1.TabIndex = 4;
-            this.label1.Text = "IP地址:";
+            this.label1.Text = "IP端口地址:";
             // 
             // label2
             // 
@@ -146,24 +147,24 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.button2_Click);
             // 
-            // radMysql
+            // radSqlserver
             // 
-            this.radMysql.AutoSize = true;
-            this.radMysql.Font = new System.Drawing.Font("宋体", 12F);
-            this.radMysql.Location = new System.Drawing.Point(42, 64);
-            this.radMysql.Name = "radMysql";
-            this.radMysql.Size = new System.Drawing.Size(98, 20);
-            this.radMysql.TabIndex = 10;
-            this.radMysql.TabStop = true;
-            this.radMysql.Text = "SqlServer";
-            this.radMysql.UseVisualStyleBackColor = true;
+            this.radSqlserver.AutoSize = true;
+            this.radSqlserver.Font = new System.Drawing.Font("宋体", 12F);
+            this.radSqlserver.Location = new System.Drawing.Point(24, 64);
+            this.radSqlserver.Name = "radSqlserver";
+            this.radSqlserver.Size = new System.Drawing.Size(98, 20);
+            this.radSqlserver.TabIndex = 10;
+            this.radSqlserver.TabStop = true;
+            this.radSqlserver.Text = "SqlServer";
+            this.radSqlserver.UseVisualStyleBackColor = true;
             // 
             // radOracle
             // 
             this.radOracle.AutoSize = true;
             this.radOracle.Enabled = false;
             this.radOracle.Font = new System.Drawing.Font("宋体", 12F);
-            this.radOracle.Location = new System.Drawing.Point(180, 64);
+            this.radOracle.Location = new System.Drawing.Point(135, 64);
             this.radOracle.Name = "radOracle";
             this.radOracle.Size = new System.Drawing.Size(74, 20);
             this.radOracle.TabIndex = 11;
@@ -171,18 +172,18 @@
             this.radOracle.Text = "Oracle";
             this.radOracle.UseVisualStyleBackColor = true;
             // 
-            // radSqlserver
+            // radMysql
             // 
-            this.radSqlserver.AutoSize = true;
-            this.radSqlserver.Enabled = false;
-            this.radSqlserver.Font = new System.Drawing.Font("宋体", 12F);
-            this.radSqlserver.Location = new System.Drawing.Point(289, 64);
-            this.radSqlserver.Name = "radSqlserver";
-            this.radSqlserver.Size = new System.Drawing.Size(66, 20);
-            this.radSqlserver.TabIndex = 12;
-            this.radSqlserver.TabStop = true;
-            this.radSqlserver.Text = "MySql";
-            this.radSqlserver.UseVisualStyleBackColor = true;
+            this.radMysql.AutoSize = true;
+            this.radMysql.Enabled = false;
+            this.radMysql.Font = new System.Drawing.Font("宋体", 12F);
+            this.radMysql.Location = new System.Drawing.Point(227, 64);
+            this.radMysql.Name = "radMysql";
+            this.radMysql.Size = new System.Drawing.Size(66, 20);
+            this.radMysql.TabIndex = 12;
+            this.radMysql.TabStop = true;
+            this.radMysql.Text = "MySql";
+            this.radMysql.UseVisualStyleBackColor = true;
             // 
             // comConns
             // 
@@ -216,17 +217,30 @@
             this.picLoad.TabStop = false;
             this.picLoad.Visible = false;
             // 
+            // radPostgresql
+            // 
+            this.radPostgresql.AutoSize = true;
+            this.radPostgresql.Font = new System.Drawing.Font("宋体", 12F);
+            this.radPostgresql.Location = new System.Drawing.Point(303, 64);
+            this.radPostgresql.Name = "radPostgresql";
+            this.radPostgresql.Size = new System.Drawing.Size(106, 20);
+            this.radPostgresql.TabIndex = 16;
+            this.radPostgresql.TabStop = true;
+            this.radPostgresql.Text = "PostgreSql";
+            this.radPostgresql.UseVisualStyleBackColor = true;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(432, 396);
+            this.Controls.Add(this.radPostgresql);
             this.Controls.Add(this.picLoad);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.comConns);
-            this.Controls.Add(this.radSqlserver);
-            this.Controls.Add(this.radOracle);
             this.Controls.Add(this.radMysql);
+            this.Controls.Add(this.radOracle);
+            this.Controls.Add(this.radSqlserver);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.label4);
@@ -263,12 +277,13 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.RadioButton radMysql;
-        private System.Windows.Forms.RadioButton radOracle;
         private System.Windows.Forms.RadioButton radSqlserver;
+        private System.Windows.Forms.RadioButton radOracle;
+        private System.Windows.Forms.RadioButton radMysql;
         private System.Windows.Forms.ComboBox comConns;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox picLoad;
+        private System.Windows.Forms.RadioButton radPostgresql;
     }
 }
 

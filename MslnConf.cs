@@ -23,6 +23,11 @@ namespace CodeCreator
             TemplateItem template = null;
             bool flag = false;
             string[] lines = File.ReadAllLines(MslnPath);
+            string tablename = ht["TableName"].ToString();
+            string TableNameClearPrefix = tablename.Contains("_") ? (tablename.IndexOf('_') > tablename.Length - 1) ? tablename : tablename.Substring(tablename.IndexOf('_') + 1) : tablename;
+            char[] chars = TableNameClearPrefix.ToLower().ToCharArray();
+            chars[0] = chars[0].ToString().ToUpper().First();
+            string TableNameClearPrefixFormat = new string(chars);
             foreach (var item in lines)
             {
                 string tmp = item;
@@ -51,7 +56,7 @@ namespace CodeCreator
                         }
                         else if (tmp.StartsWith("#OutName"))
                         {
-                            template.OutName = tmp.Substring("#OutName".Length).Trim('=').Replace("#TableName#", ht["TableName"].ToString());
+                            template.OutName = tmp.Substring("#OutName".Length).Trim('=').Replace("#TableName#", ht["TableName"].ToString()).Replace("#TableNameClearPrefixFormat#", TableNameClearPrefixFormat).Replace("#TableNameClearPrefix#", TableNameClearPrefix);
                         }
                         else if (tmp.StartsWith("#ClassFullName"))
                         {
