@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostgreSqlMain));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.选择 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
@@ -93,6 +94,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnXML = new System.Windows.Forms.Button();
             this.btnDoc = new System.Windows.Forms.Button();
+            this.btnConvert = new System.Windows.Forms.Button();
+            this.btnConvertBig = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -154,7 +157,7 @@
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 30;
             this.dataGridView2.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView2.Size = new System.Drawing.Size(686, 259);
+            this.dataGridView2.Size = new System.Drawing.Size(728, 259);
             this.dataGridView2.TabIndex = 1;
             this.dataGridView2.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellEndEdit);
             this.dataGridView2.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseClick);
@@ -219,9 +222,9 @@
             this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRefresh.Font = new System.Drawing.Font("宋体", 14F);
-            this.btnRefresh.Location = new System.Drawing.Point(165, 337);
+            this.btnRefresh.Location = new System.Drawing.Point(301, 394);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(131, 43);
+            this.btnRefresh.Size = new System.Drawing.Size(76, 43);
             this.btnRefresh.TabIndex = 7;
             this.btnRefresh.Text = "刷新";
             this.btnRefresh.UseVisualStyleBackColor = true;
@@ -245,9 +248,9 @@
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnExit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnExit.Font = new System.Drawing.Font("宋体", 14F);
-            this.btnExit.Location = new System.Drawing.Point(319, 394);
+            this.btnExit.Location = new System.Drawing.Point(383, 393);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(93, 43);
+            this.btnExit.Size = new System.Drawing.Size(81, 43);
             this.btnExit.TabIndex = 9;
             this.btnExit.Text = "退出";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -282,7 +285,7 @@
             this.关于ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1294, 29);
+            this.menuStrip1.Size = new System.Drawing.Size(1336, 29);
             this.menuStrip1.TabIndex = 12;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -586,7 +589,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(596, 57);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(686, 259);
+            this.richTextBox1.Size = new System.Drawing.Size(728, 259);
             this.richTextBox1.TabIndex = 22;
             this.richTextBox1.Text = "";
             this.richTextBox1.Visible = false;
@@ -704,7 +707,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Italic);
-            this.groupBox1.Location = new System.Drawing.Point(440, 322);
+            this.groupBox1.Location = new System.Drawing.Point(482, 322);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(842, 144);
             this.groupBox1.TabIndex = 26;
@@ -729,7 +732,6 @@
             // 
             this.btnDoc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDoc.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDoc.Enabled = false;
             this.btnDoc.Font = new System.Drawing.Font("宋体", 14F);
             this.btnDoc.Location = new System.Drawing.Point(5, 338);
             this.btnDoc.Name = "btnDoc";
@@ -739,15 +741,44 @@
             this.btnDoc.UseVisualStyleBackColor = true;
             this.btnDoc.Click += new System.EventHandler(this.button5_Click);
             // 
+            // btnConvert
+            // 
+            this.btnConvert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnConvert.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnConvert.Font = new System.Drawing.Font("宋体", 14F);
+            this.btnConvert.Location = new System.Drawing.Point(165, 337);
+            this.btnConvert.Name = "btnConvert";
+            this.btnConvert.Size = new System.Drawing.Size(131, 43);
+            this.btnConvert.TabIndex = 29;
+            this.btnConvert.Text = "对象名转小写";
+            this.btnConvert.UseVisualStyleBackColor = true;
+            this.btnConvert.Click += new System.EventHandler(this.btnConvert_Click);
+            // 
+            // btnConvertBig
+            // 
+            this.btnConvertBig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnConvertBig.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnConvertBig.Font = new System.Drawing.Font("宋体", 14F);
+            this.btnConvertBig.Location = new System.Drawing.Point(302, 339);
+            this.btnConvertBig.Name = "btnConvertBig";
+            this.btnConvertBig.Size = new System.Drawing.Size(162, 43);
+            this.btnConvertBig.TabIndex = 30;
+            this.btnConvertBig.Text = "对象名转大写";
+            this.btnConvertBig.UseVisualStyleBackColor = true;
+            this.btnConvertBig.Click += new System.EventHandler(this.btnConvertBig_Click);
+            // 
             // PostgreSqlMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1294, 472);
+            this.ClientSize = new System.Drawing.Size(1336, 472);
+            this.Controls.Add(this.btnConvertBig);
+            this.Controls.Add(this.btnConvert);
             this.Controls.Add(this.btnDoc);
             this.Controls.Add(this.btnXML);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.picLoad);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnSQL);
@@ -758,11 +789,11 @@
             this.Controls.Add(this.radView);
             this.Controls.Add(this.radTable);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "PostgreSqlMain";
             this.Text = "PostgreSql主窗口";
@@ -850,5 +881,7 @@
         private System.Windows.Forms.ToolStripMenuItem left_删除函数;
         private System.Windows.Forms.ToolStripMenuItem left_删除存储过程;
         private System.Windows.Forms.ToolStripMenuItem left_truncate表;
+        private System.Windows.Forms.Button btnConvert;
+        private System.Windows.Forms.Button btnConvertBig;
     }
 }

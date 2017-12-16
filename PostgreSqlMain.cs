@@ -740,44 +740,44 @@ SELECT row_number() over(order by a.relname) as 序号,
             {
                 DocX doc = null;
                 await Task.Factory.StartNew((Action)(() =>
-                {
-                    doc = DocX.Load("表结构说明模板.docx");
+               {
+                   doc = DocX.Load("表结构说明模板.docx");
 
-                    for (int i = 0; i < res.Count; i++)
-                    {
-                        Paragraph ptmp = doc.InsertParagraph(doc.Paragraphs[0]);
-                        Novacode.Table tbltmp = doc.InsertTable(doc.Tables[0]);
-                        SetBorder(tbltmp);
-                        ptmp.ReplaceText("#TableName#", res[i].Name);
-                        tbltmp.Rows[0].Cells[1].ReplaceText("#TableName#", res[i].Name);
-                        tbltmp.Rows[1].Cells[1].ReplaceText("#TableDesc#", res[i].Desc ?? "");
-                        tbltmp.Rows[2].Cells[1].ReplaceText("#PrimaryKey#", res[i].PrimaryKey);
-                        for (int ii = 0; ii < res[i].Columns.Count; ii++)
-                        {
-                            Novacode.Row rowtmp = tbltmp.InsertRow(tbltmp.Rows[4]);
-                            rowtmp.Cells[0].ReplaceText("#ColumnName#", res[i].Columns[ii].Name);
-                            rowtmp.Cells[1].ReplaceText("#ColumnType#", res[i].Columns[ii].Type);
-                            rowtmp.Cells[2].ReplaceText("#ColumnDesc#", res[i].Columns[ii].Desc ?? "");
-                            string remark = "";
-                            if (res[i].Columns[ii].IsIdentity)
-                            {
-                                remark += "自增;";
-                            }
-                            if (res[i].Columns[ii].IsNullable)
-                            {
-                                remark += "可空;";
-                            }
-                            if (!string.IsNullOrWhiteSpace(res[i].Columns[ii].Default))
-                            {
-                                remark += "默认(" + res[i].Columns[ii].Default + ");";
-                            }
-                            rowtmp.Cells[3].ReplaceText("#ColumnRemark#", remark);
-                        }
-                        tbltmp.RemoveRow(4);
-                    }
-                    doc.RemoveParagraph(doc.Paragraphs[0]);
-                    doc.Tables[0].Remove();
-                }));
+                   for (int i = 0; i < res.Count; i++)
+                   {
+                       Paragraph ptmp = doc.InsertParagraph(doc.Paragraphs[0]);
+                       Novacode.Table tbltmp = doc.InsertTable(doc.Tables[0]);
+                       SetBorder(tbltmp);
+                       ptmp.ReplaceText("#TableName#", res[i].Name);
+                       tbltmp.Rows[0].Cells[1].ReplaceText("#TableName#", res[i].Name);
+                       tbltmp.Rows[1].Cells[1].ReplaceText("#TableDesc#", res[i].Desc ?? "");
+                       tbltmp.Rows[2].Cells[1].ReplaceText("#PrimaryKey#", res[i].PrimaryKey);
+                       for (int ii = 0; ii < res[i].Columns.Count; ii++)
+                       {
+                           Novacode.Row rowtmp = tbltmp.InsertRow(tbltmp.Rows[4]);
+                           rowtmp.Cells[0].ReplaceText("#ColumnName#", res[i].Columns[ii].Name);
+                           rowtmp.Cells[1].ReplaceText("#ColumnType#", res[i].Columns[ii].Type);
+                           rowtmp.Cells[2].ReplaceText("#ColumnDesc#", res[i].Columns[ii].Desc ?? "");
+                           string remark = "";
+                           if (res[i].Columns[ii].IsIdentity)
+                           {
+                               remark += "自增;";
+                           }
+                           if (res[i].Columns[ii].IsNullable)
+                           {
+                               remark += "可空;";
+                           }
+                           if (!string.IsNullOrWhiteSpace(res[i].Columns[ii].Default))
+                           {
+                               remark += "默认(" + res[i].Columns[ii].Default + ");";
+                           }
+                           rowtmp.Cells[3].ReplaceText("#ColumnRemark#", remark);
+                       }
+                       tbltmp.RemoveRow(4);
+                   }
+                   doc.RemoveParagraph(doc.Paragraphs[0]);
+                   doc.Tables[0].Remove();
+               }));
                 btnDoc.Text = "生成表结构说明";
                 btnDoc.Enabled = true;
                 folderBrowserDialog1.ShowNewFolderButton = true;
@@ -817,7 +817,7 @@ SELECT row_number() over(order by a.relname) as 序号,
 
         private async Task<List<TableStruct>> CreateTableList()
         {
-            SqlServerIDbAccess iDb = IDBFactory.CreateIDB(DataTransfer.iDb.ConnectionString, "SQLSERVER") as SqlServerIDbAccess;
+            PostgreSqlIDbAccess iDb = IDBFactory.CreateIDB(DataTransfer.iDb.ConnectionString, "POSTGRESQL") as PostgreSqlIDbAccess;
             List<string> tblNames = new List<string>();
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
@@ -949,7 +949,7 @@ SELECT row_number() over(order by a.relname) as 序号,
 
         private void toolStripMenuItem2_Click_1(object sender, EventArgs e)
         {
-            DBUtil.SqlServerIDbAccess iDb = DataTransfer.iDb as DBUtil.SqlServerIDbAccess;
+            DBUtil.PostgreSqlIDbAccess iDb = DataTransfer.iDb as DBUtil.PostgreSqlIDbAccess;
             string colname = dataGridView2.Rows[colRowIndex].Cells[1].Value.ToString();
             string colType = dataGridView2.Rows[colRowIndex].Cells[2].Value.ToString();
             string tblname = textBox1.Text;
@@ -974,7 +974,7 @@ SELECT row_number() over(order by a.relname) as 序号,
 
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
-            DBUtil.SqlServerIDbAccess iDb = DataTransfer.iDb as DBUtil.SqlServerIDbAccess;
+            DBUtil.PostgreSqlIDbAccess iDb = DataTransfer.iDb as DBUtil.PostgreSqlIDbAccess;
             string colname = dataGridView2.Rows[colRowIndex].Cells[1].Value.ToString();
             string colType = dataGridView2.Rows[colRowIndex].Cells[2].Value.ToString();
             string tblname = textBox1.Text;
@@ -1111,7 +1111,7 @@ select ROW_NUMBER() OVER(order BY viewname) 序号,viewname 视图名称 from pg
 
         private void CHKFunc()
         {
-            SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+            PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
             List<Func> funcs = iDb.GetFuncs();
             DataTable dt = new DataTable();
             dt.Columns.Add("序号");
@@ -1146,7 +1146,7 @@ select ROW_NUMBER() OVER(order BY viewname) 序号,viewname 视图名称 from pg
             richTextBox1.Size = dataGridView2.Size;
             dataGridView2.Visible = false;
             richTextBox1.Visible = true;
-            SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+            PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
             richTextBox1.Text = iDb.CreateFuncSql(funcName);
             DisableAllRad();
         }
@@ -1361,7 +1361,7 @@ select ROW_NUMBER() OVER(order BY viewname) 序号,viewname 视图名称 from pg
             List<TableStruct> li = await CreateTableList();
             if (li.Count == 0) { MessageBox.Show("请先选择表!"); return ""; }
             StringBuilder sb = new StringBuilder();
-            SqlServerIDbAccess iDb = IDBFactory.CreateIDB(DataTransfer.iDb.ConnectionString, "SQLSERVER") as SqlServerIDbAccess;
+            PostgreSqlIDbAccess iDb = IDBFactory.CreateIDB(DataTransfer.iDb.ConnectionString, "SQLSERVER") as PostgreSqlIDbAccess;
             await Task.Factory.StartNew(() =>
             {
                 if (isContainInsert)
@@ -1421,7 +1421,7 @@ end $$;
         }
         private string CreateProcSql()
         {
-            SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+            PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
@@ -1446,7 +1446,7 @@ go
         }
         private string CreateFuncSql()
         {
-            SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+            PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
@@ -1476,7 +1476,7 @@ go", funName));
         {
             if (MessageBox.Show("确定删除视图?", "确认框", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
             {
-                DBUtil.SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+                DBUtil.PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
                 string viewname = dataGridView1.Rows[tblRowEdit].Cells[2].Value.ToString();
                 iDb.ExecuteSql("drop view [" + viewname + "]");
                 CHKView();
@@ -1487,7 +1487,7 @@ go", funName));
         {
             if (MessageBox.Show("确定删除函数?", "确认框", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
             {
-                DBUtil.SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+                DBUtil.PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
                 string funcname = dataGridView1.Rows[tblRowEdit].Cells[2].Value.ToString();
                 iDb.ExecuteSql("drop function [" + funcname + "]");
                 CHKFunc();
@@ -1498,7 +1498,7 @@ go", funName));
         {
             if (MessageBox.Show("确定删除存储过程?", "确认框", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
             {
-                DBUtil.SqlServerIDbAccess iDb = DataTransfer.iDb as SqlServerIDbAccess;
+                DBUtil.PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
                 string procname = dataGridView1.Rows[tblRowEdit].Cells[2].Value.ToString();
                 iDb.ExecuteSql("drop proc [" + procname + "]");
                 CHKProc();
@@ -1514,6 +1514,132 @@ go", funName));
                 iDb.ExecuteSql("truncate table " + iDb.WrapName(tablename));
                 InitTableInfo();
                 MessageBox.Show("truncate表:" + tablename + "成功!");
+            }
+        }
+
+        private async void btnConvert_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("确定对象名转小写?", "确认框", MessageBoxButtons.OKCancel) != System.Windows.Forms.DialogResult.OK)
+            {
+                return;
+            }
+            btnConvert.Text = "执行中...";
+            btnConvert.Enabled = false;
+            List<TableStruct> res = null;
+            try
+            {
+                res = await CreateTableList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                btnConvert.Text = "对象名转小写";
+                btnConvert.Enabled = true;
+                return;
+            }
+            if (res.Count == 0)
+            {
+                MessageBox.Show("请选中要转成小写的表!");
+                btnConvert.Text = "对象名转小写";
+                btnConvert.Enabled = true;
+                return;
+            }
+            try
+            {
+                await Task.Factory.StartNew((Action)(() =>
+                {
+                    DBUtil.PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
+
+                    for (int i = 0; i < res.Count; i++)
+                    {
+                        PostgreSqlTableStruct tblStruct = (PostgreSqlTableStruct)iDb.GetTableStruct(res[i].Name);
+                        for (int ii = 0; ii < tblStruct.Columns.Count; ii++)
+                        {
+                            if (tblStruct.Columns[ii].Name != tblStruct.Columns[ii].Name.ToLower())
+                            {
+                                iDb.RenameColumn(res[i].Name, tblStruct.Columns[ii].Name, tblStruct.Columns[ii].Name.ToLower());
+                            }
+                        }
+                        if (res[i].Name != res[i].Name.ToLower())
+                        {
+                            iDb.RenameTable(res[i].Name, res[i].Name.ToLower());
+                        }                        
+                    }
+                    MessageBox.Show("改写成功!");
+                    this.OnLoad(null);
+                }));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                btnConvert.Text = "对象名转小写";
+                btnConvert.Enabled = true;
+            }
+        }
+
+        private async void btnConvertBig_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("确定对象名转大写?", "确认框", MessageBoxButtons.OKCancel) != System.Windows.Forms.DialogResult.OK)
+            {
+                return;
+            }
+            btnConvert.Text = "执行中...";
+            btnConvert.Enabled = false;
+            List<TableStruct> res = null;
+            try
+            {
+                res = await CreateTableList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                btnConvert.Text = "对象名转大写";
+                btnConvert.Enabled = true;
+                return;
+            }
+            if (res.Count == 0)
+            {
+                MessageBox.Show("请选中要转成大写的表!");
+                btnConvert.Text = "对象名转大写";
+                btnConvert.Enabled = true;
+                return;
+            }
+            try
+            {
+                await Task.Factory.StartNew((Action)(() =>
+                {
+                    DBUtil.PostgreSqlIDbAccess iDb = DataTransfer.iDb as PostgreSqlIDbAccess;
+
+                    for (int i = 0; i < res.Count; i++)
+                    {
+                        PostgreSqlTableStruct tblStruct = (PostgreSqlTableStruct)iDb.GetTableStruct(res[i].Name);
+                        for (int ii = 0; ii < tblStruct.Columns.Count; ii++)
+                        {
+                            if (tblStruct.Columns[ii].Name != tblStruct.Columns[ii].Name.ToUpper())
+                            {
+                                iDb.RenameColumn(res[i].Name, tblStruct.Columns[ii].Name, tblStruct.Columns[ii].Name.ToUpper());
+                            }
+                        }
+                        if (res[i].Name != res[i].Name.ToUpper())
+                        {
+                            iDb.RenameTable(res[i].Name, res[i].Name.ToUpper());
+                        }
+                    }
+                    MessageBox.Show("改写成功!");
+                    this.OnLoad(null);
+                }));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                btnConvert.Text = "对象名转小写";
+                btnConvert.Enabled = true;
             }
         }
     }
