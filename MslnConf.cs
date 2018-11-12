@@ -24,6 +24,7 @@ namespace CodeCreator
             bool flag = false;
             string[] lines = File.ReadAllLines(MslnPath);
             string tablename = ht["TableName"].ToString();
+            string TableNamePrefix = tablename.ToUpper().Substring(0, 1) + tablename.Substring(1);
             string TableNameClearPrefix = tablename.Contains("_") ? (tablename.IndexOf('_') > tablename.Length - 1) ? tablename : tablename.Substring(tablename.IndexOf('_') + 1) : tablename;
             char[] chars = TableNameClearPrefix.ToLower().ToCharArray();
             chars[0] = chars[0].ToString().ToUpper().First();
@@ -56,7 +57,7 @@ namespace CodeCreator
                         }
                         else if (tmp.StartsWith("#OutName"))
                         {
-                            template.OutName = tmp.Substring("#OutName".Length).Trim('=').Replace("#TableName#", ht["TableName"].ToString()).Replace("#TableNameClearPrefixFormat#", TableNameClearPrefixFormat).Replace("#TableNameClearPrefix#", TableNameClearPrefix);
+                            template.OutName = tmp.Substring("#OutName".Length).Trim('=').Replace("#TableName#", ht["TableName"].ToString()).Replace("#TableNameClearPrefixFormat#", TableNameClearPrefixFormat).Replace("#TableNameClearPrefix#", TableNameClearPrefix).Replace("#TableNamePrefix#", TableNamePrefix);
                         }
                         else if (tmp.StartsWith("#ClassFullName"))
                         {

@@ -28,19 +28,28 @@ namespace CodeCreator
                 {
                     if (error.IsWarning == true)
                     {
-                        WriteLog("Line: " + error.Line.ToString() + " Warning Number: " + error.ErrorNumber + " Warning Message: " + error.ErrorText);
+                        WriteLog("编译模板错误 Line: " + error.Line.ToString() + " Warning Number: " + error.ErrorNumber + " Warning Message: " + error.ErrorText);
                     }
                     else if (error.IsWarning == false)
                     {
-                        WriteLog("Line: " + error.Line.ToString() + " Error Number: " + error.ErrorNumber + " Error Message: " + error.ErrorText);
+                        WriteLog("编译模板错误 Line: " + error.Line.ToString() + " Error Number: " + error.ErrorNumber + " Error Message: " + error.ErrorText);
                     }
-                    return "error";
+                    return "编译模板错误,请查看日志!";
                 }
-                Assembly asm = results.CompiledAssembly;
-                object objSrcCreateClass = asm.CreateInstance(ClassFullName);
-                Type SrcCreateType = objSrcCreateClass.GetType();
-                object obj = SrcCreateType.GetMethod(CreateMethod).Invoke(objSrcCreateClass, new object[] { (Hashtable)DataTransfer.data });
-                return obj.ToString();
+                try
+                {
+                    Assembly asm = results.CompiledAssembly;
+                    object objSrcCreateClass = asm.CreateInstance(ClassFullName);
+                    Type SrcCreateType = objSrcCreateClass.GetType();
+                    object obj = SrcCreateType.GetMethod(CreateMethod).Invoke(objSrcCreateClass, new object[] { (Hashtable)DataTransfer.data });
+                    return obj.ToString();
+                }
+                catch (Exception ex)
+                {
+                    WriteLog("编译模板后，调用方法错误:");
+                    WriteLog(ex.ToString());
+                    return "编译模板后，调用方法错误,请查看日志!";
+                }
             }
 
         }

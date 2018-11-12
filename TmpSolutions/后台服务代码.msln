@@ -4,6 +4,7 @@
 //#ClassFullName:当前生成文件中的生成类的全名
 //#CreateMethod:当前生成文件中的执行生成的方法名
 //#TableName#:当前表的名字
+//#TableNamePrefix#:当前表的名字(首字母大写)
 //#TableNameClearPrefix#:清除了前缀的表名称("_")
 //#TableNameClearPrefixFormat#:清除了前缀("_")并且格式化了的表名称(首字母大写,其余小写)
 #Item_Start
